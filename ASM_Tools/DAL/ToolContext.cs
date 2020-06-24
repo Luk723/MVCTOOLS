@@ -12,7 +12,7 @@ namespace ASM_Tools.DAL
     {
         public ToolContext() : base("ToolContext")
         {
-
+            Database.SetInitializer<ToolContext>(null);
         }
 
         public DbSet<Employee> Employees { get; set; }
@@ -23,5 +23,7 @@ namespace ASM_Tools.DAL
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
+        public System.Data.Entity.DbSet<ASM_Tools.Models.EmployeeViewModel> EmployeeViewModels { get; set; }
     }
 }

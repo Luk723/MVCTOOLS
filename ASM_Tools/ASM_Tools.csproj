@@ -149,9 +149,15 @@
     <Compile Include="Migrations\202006230805235_InitialCreate2.designer.cs">
       <DependentUpon>202006230805235_InitialCreate2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006240717272_update.cs" />
+    <Compile Include="Migrations\202006240717272_update.designer.cs">
+      <DependentUpon>202006240717272_update.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Carousel.cs" />
+    <Compile Include="Models\CheckBoxViewModel.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\Tool.cs" />
     <Compile Include="Models\ToolToEmployee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -217,6 +223,8 @@
     <Content Include="Views\EditorEmployee\Details.cshtml" />
     <Content Include="Views\EditorEmployee\Edit.cshtml" />
     <Content Include="Views\EditorEmployee\Index.cshtml" />
+    <Content Include="Views\EditorEmployee\Yap.cshtml" />
+    <Content Include="Views\EditorEmployee\YapD.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -242,6 +250,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006230805235_InitialCreate2.resx">
       <DependentUpon>202006230805235_InitialCreate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006240717272_update.resx">
+      <DependentUpon>202006240717272_update.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using ASM_Tools.DAL;
 using ASM_Tools.Models;
 using System.IO;
+using System.Drawing.Design;
+using System.Web.UI.WebControls;
 
 namespace ASM_Tools.Controllers
 {
@@ -119,7 +121,138 @@ namespace ASM_Tools.Controllers
                 return HttpNotFound();
             }
             return View(employee);
+
         }
+
+        //Test edit
+        public ActionResult Yap(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+
+            var Results = from t in db.Tools
+                          select new
+                          {
+                              t.ToolID,
+                              t.Title,
+                              Checked = ((from te in db.ToolToEmployees
+                                          where (te.EmployeeID == id) & (te.ToolID == t.ToolID)
+                                          select te).Count() > 0)
+                          };
+
+            var MyViewmodel = new EmployeeViewModel();
+
+            MyViewmodel.ID = id.Value;
+            MyViewmodel.Name = employee.FirstMidName;
+            MyViewmodel.LastName = employee.LastName;
+
+            var MyCheckBoxList = new List<CheckBoxViewModel>();
+
+            foreach (var item in Results)
+            {
+                MyCheckBoxList.Add(new CheckBoxViewModel { Id = item.ToolID, ToolName = item.Title, Checked = item.Checked });
+            }
+
+            MyViewmodel.Tools = MyCheckBoxList;
+
+            return View(MyViewmodel);
+
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Yap(EmployeeViewModel employee)
+        {
+            if (ModelState.IsValid)
+            {
+                var MyEmployee = db.Employees.Find(employee.ID);
+
+                MyEmployee.FirstMidName = employee.Name;
+                MyEmployee.LastName = employee.LastName;
+
+                foreach(var item in db.ToolToEmployees)
+                {
+                    if(item.ID == employee.ID)
+                    {
+                        db.Entry(item).State = EntityState.Deleted;
+                    }
+                }
+
+                foreach(var item in employee.Tools)
+                {
+                    if (item.Checked)
+                    {
+                        var tee = from te in db.ToolToEmployees
+                                  where te.EmployeeID == employee.ID && te.ToolID == item.Id
+                                  select te;
+                        if(tee.Count() == 0)
+                        {
+                            db.ToolToEmployees.Add(new ToolToEmployee() { EmployeeID = employee.ID, ToolID = item.Id });
+                        }
+                    } else
+                    {
+                        var tee = from te in db.ToolToEmployees
+                                  where te.EmployeeID == employee.ID && te.ToolID == item.Id
+                                  select te;
+                        if(tee.Count() != 0)
+                        {
+                            db.ToolToEmployees.Remove(tee.First());
+                        }
+                    }
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(employee);
+        }
+
+        public ActionResult YapD(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            var Results = from t in db.Tools
+                          select new
+                          {
+                              t.ToolID,
+                              t.Title,
+                              Checked = ((from te in db.ToolToEmployees
+                                          where (te.EmployeeID == id) & (te.ToolID == t.ToolID)
+                                          select te).Count() > 0)
+                          };
+
+            var MyViewmodel = new EmployeeViewModel();
+
+            MyViewmodel.ID = id.Value;
+            MyViewmodel.Name = employee.FirstMidName;
+            MyViewmodel.LastName = employee.LastName;
+
+            var MyCheckBoxList = new List<CheckBoxViewModel>();
+
+            foreach (var item in Results)
+            {
+                MyCheckBoxList.Add(new CheckBoxViewModel { Id = item.ToolID, ToolName = item.Title, Checked = item.Checked });
+            }
+
+            MyViewmodel.Tools = MyCheckBoxList;
+
+            return View(MyViewmodel);
+        }
+
 
         // POST: EditorEmployee/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
