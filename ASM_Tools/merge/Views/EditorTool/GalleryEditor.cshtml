@@ -1,0 +1,77 @@
+﻿@model ASM_Tools.Models.Tool
+
+@{
+    @*loop through the files in the root folder*@
+
+    var list = Directory.EnumerateFiles(Server.MapPath(@Model.GalleryPath))
+                          .Select(fn => @Model.GalleryPath + Path.GetFileName(fn));
+}
+
+<div class="form-group">
+    @Html.LabelFor(model => model.GalleryPath, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div class="col-md-10">
+            
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+
+        <th></th>
+    </tr>
+    @foreach (var item in list)
+    {
+        <tr>
+            <td>
+                <div style="height:200px; width: 300px">
+                    <img src="@Url.Content(item)" style="max-width: 100%; height: auto;" />
+                </div>
+            </td>
+            <td>
+                <button class="btn-warning deleteImage" id="deleteGallery" data-id="@item"> Remove </button>
+            </td>
+
+        </tr>
+    }
+</table>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+
+
+    $(".deleteImage").click(function (event) {
+        event.preventDefault();
+        var path = $(this).attr("data-id");
+        
+        var imagePath = new FormData();
+        var type = 'gallery';
+        imagePath.append('path', path)
+        imagePath.append('id', ID);
+        imagePath.append('type', type);
+
+        console.log(path);
+        console.log(Array.from(imagePath));
+
+        $.ajax({
+            type: "POST",
+            url: "/EditorTool/DeleteFile",
+            @* dataType: "html",*@
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            data: imagePath,
+            success: function (data) {
+                $("#galleryRender").html(data);
+            },
+            error: function (xhr, status, error) {
+                alert(status);
+            }
+        });
+
+    });
+</script>

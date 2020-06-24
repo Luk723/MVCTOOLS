@@ -1,0 +1,192 @@
+﻿@model IEnumerable<ASM_Tools.Models.Employee>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstMidName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.salutation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JoinedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Department)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ResumePath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisplayPhotoPath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.team)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstMidName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.salutation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JoinedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Department)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ResumePath)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisplayPhotoPath)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.team)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+
+</table>
+
+<main role="main">
+
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Product Showcase</h1>
+            <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+            <p>
+                <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+            </p>
+        </div>
+    </section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="row">
+
+                @foreach (var item in Model)
+                {
+
+                    <div class="col-md-4">
+                        <div class="panel mb-4 box-shadow">
+                            <img class="panel-heading" src="@Url.Content(item.DisplayPhotoPath)" style='height: 100%;width: 100%;object-fit: contain;max-height: 20em;min-height:20em;'>
+                            <div class="panel-body" style="">
+                                <h3>@item.LastName</h3>
+                                <p class="panel-text">@item.JobTitle</p>
+                                <div class="d-flex justify-content-between" style="text-align:right">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("View", "Details", new { id = item.ID })</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("Edit", "Edit", new { id = item.ID })</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("Delete", "Delete", new { id = item.ID })</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-target="#modalPopUp" data-toggle="modal">More</button>
+
+
+                                        <!--<div class="modal" id="modalPopUp" ;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                                                        @*<h4 class="modal-title">@item.LastName</h4>*@
+                                                    <!--</div>
+                                                    <div class="modal-body">-->
+                                                        @*<img class="panel-heading" src="@Url.Content(item.CoverImagePath)" style='height: 100%; width: 100%; object-fit: contain'>*@
+                                                        <!--<div style="text-align:center">-->
+                                                            @*<h4>@item.Title</h4>*@
+                                                            <!--<hr />
+                                                            <p>-->
+
+                                                                @*All content rendered is from the first item.*@
+                                                                @*need to make it render the correct content*@
+
+                                                                @*@item.Description*@
+                                                            <!--</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>-->
+
+
+
+                                    </div>
+                                    <small class="text-muted">9 mins</small>
+                                </div>
+                                <span class="label label-info">@item.team</span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
+            </div>
+        </div>
+    </div>
+
+    @*<div>
+        <div class="row">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <div class="thumbnail">
+
+                        <img src="@Url.Content(item.CoverImagePath)" alt="Lights" style="width:100%">
+                    </div>
+                    <div class="caption">
+                        <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>*@
+</main>

@@ -1,0 +1,246 @@
+﻿@model ASM_Tools.Models.Tool
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+@*<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+<h2>Edit</h2>
+
+
+
+    
+
+@using (Html.BeginForm("Edit", "EditorTool", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Tool</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ToolID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Tag, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CoverImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                <img src="@Url.Content(Model.CoverImagePath)" style="max-width:80%;height:auto" />
+                <input type="file" name="CoverImageFile" class="form" />
+
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#galleryTab">Gallery</a></li>
+        <li><a data-toggle="tab" href="#documentationTab">Documentation Files</a></li>
+        <li><a data-toggle="tab" href="#installationTab">Installation Files</a></li>
+        <li><a data-toggle="tab" href="#videoTab">Videos</a></li>
+    </ul>
+    <div class="tab-content">
+
+        <div id="galleryTab" class="tab-pane fade in active">
+            <div id="galleryControl">
+                <input type="file" id="galleryUpload" multiple />
+                <button class="btn-success" id="galleryButton" /> Upload Images <br />
+            </div>
+            <div id="galleryRender">
+                @*@{Html.RenderAction(
+                              "ViewTool",
+                              new { ID = Model.ToolID, type = "gallery" });
+                }*@
+                @Html.Partial("GalleryEditor", Model)
+
+            </div>
+        </div>
+
+        <div id="documentationTab" class="tab-pane fade in">
+            <div id="documentationControl">
+                <input type="file" id="documentationUpload" multiple />
+                <button class="btn-success" id="documentationButton" /> Upload Files <br />
+            </div>
+            <div id="documentationRender">
+                @Html.Partial("DocumentationEditor", Model)
+            </div>
+        </div>
+
+        <div id="installationTab" class="tab-pane fade in">
+            <div id="installationControl">
+                <input type="file" id="installationUpload" multiple />
+                <button class="btn-success" id="installationButton" /> Upload Files <br />
+            </div>
+            <div id="installationRender">
+                @*@Html.Partial("InstallationEditor", Model);*@
+            </div>
+        </div>
+
+        <div id="videoTab" class="tab-pane fade in">
+            <div id="videoControl">
+                <input type="file" id="videoUpload" multiple />
+                <button class="btn-success" id="videoButton" /> Upload Videos <br />
+            </div>
+            <div id="videoRender">
+                @*@Html.Partial("VideoEditor", Model);*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+
+    var ID = @Html.Raw(Model.ToolID);
+    $(document).ready(function () {
+
+        $("#galleryButton").click(function (event) {
+            event.preventDefault();
+            var files = $("#galleryUpload").get(0).files;
+            var type = 'gallery';
+            var fileData = new FormData();
+            alert(ID);
+            fileData.append('id', ID);
+            fileData.append('type', type);
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append("galleryInput", files[i]);
+            }
+
+            console.log(Array.from(fileData));
+
+            $.ajax({
+                type: "POST",
+                url: "/EditorTool/UploadFiles",
+                @*dataType: "json",*@
+                @*async: true,*@
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (data) {
+                    $("#galleryRender").html(data);
+                    $("#galleryInput").val('');
+                },
+                error: function (xhr, status, error) {
+                     alert(status);
+                }
+            });
+        });
+
+        $("#documentationButton").click(function (event) {
+            event.preventDefault();
+            var files = $("#documentationUpload").get(0).files;
+            var type = 'documentation';
+            var fileData = new FormData();
+            alert(ID);
+            fileData.append('id', ID);
+            fileData.append('type', type);
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append("documentationInput", files[i]);
+            }
+
+            console.log(Array.from(fileData));
+
+            $.ajax({
+                type: "POST",
+                url: "/EditorTool/UploadFiles",
+                @* dataType: "json",*@
+                @* async: true,*@
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (data) {
+                    $("#documentationRender").html(data);
+                    $("#documentationUpload").val('');
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        });
+
+
+
+    })
+
+
+    @*
+        function check1() {
+            if ($('#firstTab').is(':visible')) {
+                console.log("first yes");
+            } else {
+                console.log("first false");
+            }
+
+        }
+
+        function check2() {
+            if ($('#secondTab').is(':visible')) {
+                console.log("syes");
+            } else {
+                console.log("sfalse");
+            }
+        }*@
+
+   
+
+
+   
+</script>
+
+<style>
+    ul.nav.nav-tabs {
+        margin: 10px 0px;
+    }
+
+        ul.nav.nav-tabs li:not(.active) a {
+            background-color: #eeeeee;
+            color: grey;
+        }
+
+        ul.nav.nav-tabs li.active a {
+            border-top: 3px solid #16a765;
+        }
+</style>

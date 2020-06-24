@@ -1,0 +1,169 @@
+﻿@model IEnumerable<ASM_Tools.Models.Tool>
+
+@{
+    ViewBag.Title = "Edit Tools";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+@*<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CoverImagePath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GalleryPath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DocumentationPath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InstallationPath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VideoPath)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoverImagePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GalleryPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocumentationPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstallationPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VideoPath)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ToolID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ToolID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ToolID })
+            </td>
+        </tr>
+    }
+
+</table>*@
+
+
+<main role="main">
+
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Product Showcase</h1>
+            <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+            <p>
+                <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+            </p>
+        </div>
+    </section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="row">
+                
+                @foreach(var item in Model)
+                {
+                    
+                    <div class="col-md-4">
+                        <div class="panel mb-4 box-shadow">
+                            <img class="panel-heading" src="@Url.Content(item.CoverImagePath)" style='height: 100%; width: 100%; object-fit: contain'>
+                            <div class="panel-body">
+                                <h3>@item.Title</h3>       
+                                <p class="panel-text">@item.Description</p>
+                                <div class="d-flex justify-content-between" style="text-align:right">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("View", "Details", new { id = item.ToolID })</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("Edit", "Edit", new { id = item.ToolID })</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-target="#modalPopUp" data-toggle="modal">More</button>
+
+
+                                        <div class="modal" id="modalPopUp";">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                        <h4 class="modal-title">@item.Title</h4>
+                                                    </div>
+                                                    <div class="modal-body" >
+                                                        <img class="panel-heading" src="@Url.Content(item.CoverImagePath)" style='height: 100%; width: 100%; object-fit: contain'>
+                                                        <div style="text-align:center">
+                                                            <h4>@item.Title</h4>
+                                                            <hr/>
+                                                            <p>
+
+                                                                @*All content rendered is from the first item.*@
+                                                                @*need to make it render the correct content*@ 
+
+                                                                @item.Description
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <small class="text-muted">9 mins</small>
+                                </div>
+                                <span class="label label-info">@item.Tag</span>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
+            </div>
+        </div>
+    </div>
+
+</main>

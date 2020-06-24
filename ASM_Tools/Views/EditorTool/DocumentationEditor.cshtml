@@ -1,0 +1,110 @@
+﻿@model ASM_Tools.Models.Tool
+
+@{
+    @*loop through the files in the root folder*@
+
+    var list = Directory.EnumerateFiles(Server.MapPath(@Model.DocumentationPath))
+                          .Select(fn => @Model.DocumentationPath + Path.GetFileName(fn));
+}
+
+<div class="form-group">
+    @Html.LabelFor(model => model.DocumentationPath, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div class="col-md-10">
+
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            File Name
+        </th>
+        <th>
+            File Type
+        </th>
+        <th>
+            File Size
+        </th>
+        <th>
+            File Preview
+        </th>
+        <th>
+
+        </th>
+    </tr>
+   
+    @foreach (var file in list)
+    {
+
+        long fileSize = new System.IO.FileInfo(Server.MapPath(file)).Length;
+        string ext = new System.IO.FileInfo(Server.MapPath(file)).Extension;
+        <tr>
+            <td>
+                @*@Html.ActionLink("Download cover", "DownloadFile", "Tools", new { FileName = file }, null)*@
+                @file
+            </td>
+            <td>
+                @ext
+            </td>
+            <td>
+                @(fileSize/1048576) Mb
+            </td>
+            <td>
+                @*@Html.ActionLink("Preview", "PreviewFile", "EditorTool", new { FileName = file }, null);*@
+                @*<a id="preview" href="/EditorTool/PreviewFile" data-id="@file">Preview</a>*@
+            </td>
+            <td>
+                <button class="btn-warning deleteDocumentation" id="deleteDocumentation" data-id="@file"> Remove </button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    @*$(".preview").click(function (event) {
+        var path = $(this).attr("data-id");
+
+        event.preventDefault();
+        window.open('/EditorTool/PreviewFile', path);
+    })*@
+
+    @*var ID = @Html.Raw(Model.ToolID);*@
+    $(".deleteDocumentation").click(function (event) {
+        @*event.preventDefault();*@
+
+        console.log('working');
+
+        var path = $(this).attr("data-id");
+        var type = 'documentation';
+        var docuData = new FormData();
+
+        docuData.append('path', path)
+        docuData.append('id', ID);
+        docuData.append('type', type);
+
+        console.log(path);
+        console.log(Array.from(docuData));
+
+        $.ajax({
+            type: "POST",
+            url: "/EditorTool/DeleteFile",
+            @* dataType: "html",*@
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            data: docuData,
+            success: function (data) {
+                $("#documentationRender").html(data);
+            },
+            error: function (xhr, status, error) {
+                alert(status);
+            }
+        });
+
+    });
+
+</script>

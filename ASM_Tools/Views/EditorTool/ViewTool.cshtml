@@ -1,0 +1,152 @@
+﻿@model ASM_Tools.Models.Tool
+
+    <body id="partialView">
+        @{
+            IEnumerable<string> list = new List<string>();
+                @*loop through the files in the root folder*@
+            if (ViewBag.Type.Equals("gallery", StringComparison.InvariantCultureIgnoreCase))
+            {
+                list = Directory.EnumerateFiles(Server.MapPath(@Model.GalleryPath))
+                                      .Select(fn => @Model.GalleryPath + Path.GetFileName(fn));
+            }
+            else if (ViewBag.Type.Equals("documentation", StringComparison.InvariantCultureIgnoreCase))
+            {
+                list = Directory.EnumerateFiles(Server.MapPath(@Model.DocumentationPath))
+                                      .Select(fn => @Model.DocumentationPath + Path.GetFileName(fn));
+            }
+            else if (ViewBag.Type.Equals("installation", StringComparison.InvariantCultureIgnoreCase))
+            {
+                list = Directory.EnumerateFiles(Server.MapPath(@Model.InstallationPath))
+                                      .Select(fn => @Model.InstallationPath + Path.GetFileName(fn));
+            }
+            else 
+            {
+                list = Directory.EnumerateFiles(Server.MapPath(@Model.VideoPath))
+                                      .Select(fn => @Model.VideoPath + Path.GetFileName(fn));
+            }
+
+
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GalleryPath, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="col-md-10">
+                    
+                </div>
+            </div>
+        </div>
+
+        <table class="table">
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+
+                <th></th>
+            </tr>
+            @foreach (var item in list)
+            {
+                <tr>
+                    <td>
+                        <div style="height:200px; width: 300px">
+                            <img src="@Url.Content(item)" style="max-width: 100%; height: auto;" />
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn-warning deleteImage" id="deleteGallery" data-id="@item"> Remove </button>
+                    </td>
+
+                </tr>
+            }
+        </table>
+
+    </body>
+
+
+<script src="~/Scripts/jquery-3.4.1.slim.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        var ID = @Html.Raw(Model.ToolID);
+
+        @*$(".deleteImage").click(function (event) {
+            event.preventDefault();
+            var path = $(this).attr("data-id");
+            
+            var imagePath = new FormData();
+            imagePath.append('path', path)
+            imagePath.append('id', ID);
+
+            console.log(path);
+            console.log(Array.from(imagePath));
+
+             $.ajax({
+                type: "POST",
+                url: "/EditorTool/DeleteFile",
+                dataType: "html",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: imagePath,
+                success: function (data) {
+                    $("#galleryRender").html(data);
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+
+        });*@
+    });
+
+
+    @*$(document).ready(function () {*@
+
+    @*
+        $("#fileButton").click(function () {
+            var files = $("#fileInput").get(0).files;
+            var fileData = new FormData();
+
+            var ID = @Html.Raw(Model.ToolID);
+
+            alert(ID);
+
+            fileData.append('id', ID);
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append("fileInput", files[i]);
+            }
+
+
+            console.log(Array.from(fileData));
+
+            @*var data = JSON.stringify({
+                'fileData': fileData,
+                'ID': ID
+            });*@
+
+            @*$.ajax({
+                type: "POST",
+                url: "/EditorTool/UploadFiles",
+                dataType: "json",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result, status, xhr) {
+
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        });
+
+
+
+    })*@
+
+
+</script>

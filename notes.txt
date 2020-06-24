@@ -1,0 +1,38 @@
+<connectionStrings>
+    <add name="Address2ConnectionString" connectionString="Data Source=DESKTOP-6BFVOQC\SQLEXPRESS;Initial Catalog=Address2;Integrated Security=True"
+      providerName="System.Data.SqlClient" />
+  </connectionStrings>
+
+
+string connectionString = "Data Source=DESKTOP-6BFVOQC\\SQLEXPRESS;Initial Catalog=Address2;Integrated Security=True";
+
+string mainConnection = ConfigurationManager.ConnectionStrings["Address2ConnectionString"].ConnectionString;
+
+SqlConnection connection = new SqlConnection(@"Data Source=DESKTOP-6BFVOQC\SQLEXPRESS; Initial Catalog = AddressBook; User id=sa2; Password=Hongkong23;");
+
+QcZ3&sS6tmfMqPiX
+
+=====Gallery========
+https://www.c-sharpcorner.com/blogs/image-slide-using-bootstrap-in-asp-net-mvc
+
+
+=====youtube tutorial========
+https://www.youtube.com/watch?v=zWFoZb6EiwU
+https://www.youtube.com/watch?v=E7Voso411Vs
+https://www.mikesdotnetting.com/article/259/asp-net-mvc-5-with-ef-6-working-with-files
+
+=====Boot Strap=====
+https://bootswatch.com/3/simplex/
+https://bootswatch.com/simplex/
+
+
+
+=======Issues=======
+-Changing name of title does not change names in subfolders
+	-Complications with changing the files in other things
+	-Possible fix:  Use ID instead??
+-Just make user change files in respective subfolders to make changes???
+-Is there a better way to store the files?
+-Need to create more view models to display the objects
+
+
