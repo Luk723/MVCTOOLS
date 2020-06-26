@@ -155,27 +155,32 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Carousel.cs" />
-    <Compile Include="Models\CheckBoxViewModel.cs" />
+    <Compile Include="Models\CheckBoxEmployeeViewModel.cs" />
+    <Compile Include="Models\CheckBoxToolViewModel.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\Tool.cs" />
     <Compile Include="Models\ToolToEmployee.cs" />
+    <Compile Include="Models\ToolViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-simplex.css" />
+    <Content Include="Content\jquery.orgchart.css" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include=".bin\node.cmd" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.orgchart.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -223,14 +228,13 @@
     <Content Include="Views\EditorEmployee\Details.cshtml" />
     <Content Include="Views\EditorEmployee\Edit.cshtml" />
     <Content Include="Views\EditorEmployee\Index.cshtml" />
-    <Content Include="Views\EditorEmployee\Yap.cshtml" />
-    <Content Include="Views\EditorEmployee\YapD.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Assets\Employees\" />
     <Folder Include="Assets\images\" />
     <Folder Include="Assets\Tools\" />
+    <Folder Include="Styles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

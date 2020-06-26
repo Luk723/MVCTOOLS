@@ -1,4 +1,4 @@
-﻿@model ASM_Tools.Models.Employee
+﻿@model ASM_Tools.Models.EmployeeViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -6,89 +6,107 @@
 
 <h2>Details</h2>
 
+
+<div class="container" style="margin-bottom:50px">
+    <h1 style="text-align:center">@Model.employee.LastName</h1>
+    <div style=" text-align: center">
+        <img src="@Url.Content(Model.employee.DisplayPhotoPath)" style="max-width:80%;height:auto;" />
+    </div>
+
+</div>
+
 <div>
     <h4>Employee</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.employee.LastName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.LastName)
+            @Html.DisplayFor(model => model.employee.LastName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FirstMidName)
+            @Html.DisplayNameFor(model => model.employee.FirstMidName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FirstMidName)
+            @Html.DisplayFor(model => model.employee.FirstMidName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.salutation)
+            @Html.DisplayNameFor(model => model.employee.salutation)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.salutation)
+            @Html.DisplayFor(model => model.employee.salutation)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.JoinedDate)
+            @Html.DisplayNameFor(model => model.employee.JoinedDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.JoinedDate)
+            @Html.DisplayFor(model => model.employee.JoinedDate)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.JobTitle)
+            @Html.DisplayNameFor(model => model.employee.JobTitle)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.JobTitle)
+            @Html.DisplayFor(model => model.employee.JobTitle)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Department)
+            @Html.DisplayNameFor(model => model.employee.Department)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Department)
+            @Html.DisplayFor(model => model.employee.Department)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyEmail)
+            @Html.DisplayNameFor(model => model.employee.CompanyEmail)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CompanyEmail)
+            @Html.DisplayFor(model => model.employee.CompanyEmail)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ResumePath)
+            @Html.DisplayNameFor(model => model.employee.ResumePath)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ResumePath)
+            @Html.DisplayFor(model => model.employee.ResumePath)
+        </dd>
+
+        
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.team)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.team)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DisplayPhotoPath)
+            @Html.DisplayNameFor(nodel => Model.Tools)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DisplayPhotoPath)
+            @foreach (var item in Model.Tools)
+            {
+                if (item.Checked)
+                {
+                    <div>@Html.ActionLink(item.ToolName, "Details", "Tools", new { id = item.Id }, null)</div>
+                }
+            }
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.team)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.team)
-        </dd>
 
     </dl>
 </div>

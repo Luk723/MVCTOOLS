@@ -25,5 +25,7 @@ namespace ASM_Tools.DAL
         }
 
         public System.Data.Entity.DbSet<ASM_Tools.Models.EmployeeViewModel> EmployeeViewModels { get; set; }
+
+        public System.Data.Entity.DbSet<ASM_Tools.Models.ToolViewModel> ToolViewModels { get; set; }
     }
 }

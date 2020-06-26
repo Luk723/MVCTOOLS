@@ -6,82 +6,286 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstMidName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.salutation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.JoinedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.JobTitle)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Department)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompanyEmail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ResumePath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DisplayPhotoPath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.team)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstMidName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.salutation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.JoinedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.JobTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Department)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyEmail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ResumePath)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DisplayPhotoPath)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.team)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
+@using (Html.BeginForm("Index", "Employees", FormMethod.Get))
+{
+    <p>
+        Team: @Html.DropDownList("team", "All")
+        Name: @Html.TextBox("SearchString")
+        <input type="submit" value="Filter" />
+    </p>
 }
 
-</table>
+
+<main role="main">
+
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Employee Showcase</h1>
+            <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+            <p>
+                <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+            </p>
+        </div>
+    </section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="row">
+
+                @foreach (var item in Model)
+                {
+
+                    <div class="col-md-4">
+                        <div class="panel mb-4 box-shadow">
+                            <img class="panel-heading" src="@Url.Content(item.DisplayPhotoPath)" style='height: 100%;width: 100%;object-fit: contain;max-height: 20em;min-height:20em;'>
+                            <div class="panel-body" style="">
+                                <h3>@item.LastName</h3>
+                                <p class="panel-text">@item.JobTitle</p>
+                                <div class="d-flex justify-content-between" style="text-align:right">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("View", "Details", new { id = item.ID })</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-target="#modalPopUp" data-toggle="modal">More</button>
+
+
+                                        <!--<div class="modal" id="modalPopUp" ;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                                        @*<h4 class="modal-title">@item.LastName</h4>*@
+                                        <!--</div>
+                                        <div class="modal-body">-->
+                                        @*<img class="panel-heading" src="@Url.Content(item.CoverImagePath)" style='height: 100%; width: 100%; object-fit: contain'>*@
+                                        <!--<div style="text-align:center">-->
+                                        @*<h4>@item.Title</h4>*@
+                                        <!--<hr />
+                                        <p>-->
+                                        @*All content rendered is from the first item.*@
+                                        @*need to make it render the correct content*@
+
+                                        @*@item.Description*@
+                                        <!--</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>-->
+
+
+
+                                    </div>
+                                    <small class="text-muted">9 mins</small>
+                                </div>
+                                <span class="label label-info">@item.team</span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div>
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4 col-sm-6 col-xs-1">
+
+                        <div class="card-container">
+                            <span class="pro">@item.team</span>
+                            <img class="round" src="@Url.Content(item.DisplayPhotoPath)" alt="user" />
+                            <h3>@item.FirstMidName @item.LastName </h3>
+                            <span class="label label-info" style="font-size: 1em">@item.Department</span>
+                            <p>User interface designer and <br /> front-end developer</p>
+                            <div class="buttons">
+                                <button class="primary">
+                                    Message
+                                </button>
+                                <button class="primary ghost">
+                                    Following
+                                </button>
+                            </div>
+                            <div class="skills">
+                                <h6>Skills</h6>
+                                <ul>
+                                    <li>UI / UX</li>
+                                    <li>Front End Development</li>
+                                    <li>HTML</li>
+                                    <li>CSS</li>
+                                    <li>JavaScript</li>
+                                    <li>React</li>
+                                    <li>Node</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <footer>
+                            <p>
+                                Created with <i class="fa fa-heart"></i> by
+                                <a target="_blank" href="https://florin-pop.com">Florin Pop</a>
+                                - Read how I created this
+                                <a target="_blank" href="https://florin-pop.com/blog/2019/04/profile-card-design">here</a>
+                                - Design made by
+                                <a target="_blank" href="https://dribbble.com/shots/6276930-Profile-Card-UI-Design">Ildiesign</a>
+                            </p>
+                        </footer>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+    
+
+</main>
+
+<style>
+    .panel {
+        transition: box-shadow 0.5s;
+    }
+
+        .panel:hover {
+            box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+        }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    @*body {
+        background-color: #28223F;
+        font-family: Montserrat, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+    }*@
+
+    h3 {
+        margin: 10px 0;
+    }
+
+    h6 {
+        margin: 5px 0;
+        text-transform: uppercase;
+    }
+
+    p {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .card-container {
+        background-color: #B3B8CD;
+        border-radius: 5px;
+        box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.7);
+        color: #B3B8CD;
+        padding-top: 30px;
+        position: relative;
+        width: 350px;
+        max-width: 100%;
+        text-align: center;
+        transition: box-shadow 0.5s;
+    }
+        .card-container:hover {
+            box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+        }
+
+        .card-container .pro {
+            color: #231E39;
+            background-color: #FEBB0B;
+            border-radius: 3px;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 3px 7px;
+            position: absolute;
+            top: 30px;
+            left: 30px;
+        }
+
+        .card-container .round {
+            border: 1px solid #03BFCB;
+            border-radius: 50%;
+            padding: 7px;
+            max-height: 230px;
+        }
+
+    button.primary {
+        background-color: #03BFCB;
+        border: 1px solid #03BFCB;
+        border-radius: 3px;
+        color: #231E39;
+        font-family: Montserrat, sans-serif;
+        font-weight: 500;
+        padding: 10px 25px;
+    }
+
+        button.primary.ghost {
+            background-color: transparent;
+            color: #02899C;
+        }
+
+    .skills {
+        background-color: #1F1A36;
+        text-align: left;
+        padding: 15px;
+        margin-top: 30px;
+    }
+
+        .skills ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+            .skills ul li {
+                border: 1px solid #2D2747;
+                border-radius: 2px;
+                display: inline-block;
+                font-size: 12px;
+                margin: 0 7px 7px 0;
+                padding: 7px;
+            }
+
+    footer {
+        background-color: #222;
+        color: #fff;
+        font-size: 14px;
+        bottom: 0;
+        position: fixed;
+        left: 0;
+        right: 0;
+        text-align: center;
+        z-index: 999;
+    }
+
+        footer p {
+            margin: 10px 0;
+        }
+
+        footer i {
+            color: red;
+        }
+
+        footer a {
+            color: #3c97bf;
+            text-decoration: none;
+        }
+
+</style>

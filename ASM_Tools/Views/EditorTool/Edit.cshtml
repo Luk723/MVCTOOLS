@@ -1,4 +1,4 @@
-﻿@model ASM_Tools.Models.Tool
+﻿@model ASM_Tools.Models.ToolViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -9,60 +9,82 @@
 <h2>Edit</h2>
 
 
-
-    
-
 @using (Html.BeginForm("Edit", "EditorTool", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.tool.ToolID)
+    @Html.HiddenFor(model => model.tool.GalleryPath)
+    @Html.HiddenFor(model => model.tool.DocumentationPath)
+    @Html.HiddenFor(model => model.tool.VideoPath)
+    @Html.HiddenFor(model => model.tool.InstallationPath)
 
-    <div class="form-horizontal">
-        <h4>Tool</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ToolID)
+<div class="form-horizontal">
+    <h4>Tool</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.tool.ToolID)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Tag, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CoverImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-
-                <img src="@Url.Content(Model.CoverImagePath)" style="max-width:80%;height:auto" />
-                <input type="file" name="CoverImageFile" class="form" />
-
-
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.tool.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.tool.Title, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.tool.Title, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.tool.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.tool.Description, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.tool.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.tool.Tag, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.tool.Tag, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.tool.Tag, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.tool.team, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EnumDropDownListFor(model => model.tool.team, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.tool.team, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.tool.CoverImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <img src="@Url.Content(Model.tool.CoverImagePath)" style="max-width:80%;height:auto" />
+            <input type="file" name="CoverImageFile" class="form" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Employees, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @for (int i = 0; i < Model.Employees.Count(); i++)
+            {
+                @Html.EditorFor(m => Model.Employees[i].Checked)
+                @Html.DisplayFor(m => Model.Employees[i].EmployeeLastName)
+
+                @Html.HiddenFor(m => Model.Employees[i].EmployeeLastName)
+                @Html.HiddenFor(m => Model.Employees[i].Id);
+            }
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
 <div>
@@ -81,10 +103,10 @@
             </div>
             <div id="galleryRender">
                 @*@{Html.RenderAction(
-                              "ViewTool",
-                              new { ID = Model.ToolID, type = "gallery" });
-                }*@
-                @Html.Partial("GalleryEditor", Model)
+                                  "ViewTool",
+                                  new { ID = Model.ToolID, type = "gallery" });
+                    }*@
+                @Html.Partial("GalleryEditor", Model.tool)
 
             </div>
         </div>
@@ -95,7 +117,7 @@
                 <button class="btn-success" id="documentationButton" /> Upload Files <br />
             </div>
             <div id="documentationRender">
-                @Html.Partial("DocumentationEditor", Model)
+                @Html.Partial("DocumentationEditor", Model.tool)
             </div>
         </div>
 
@@ -132,7 +154,7 @@
 
 <script>
 
-    var ID = @Html.Raw(Model.ToolID);
+    var ID = @Html.Raw(Model.tool.ToolID);
     $(document).ready(function () {
 
         $("#galleryButton").click(function (event) {
@@ -224,10 +246,10 @@
             }
         }*@
 
-   
 
 
-   
+
+
 </script>
 
 <style>

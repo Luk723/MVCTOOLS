@@ -55,7 +55,7 @@ namespace ASM_Tools.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ToolID,Title,Description,Tag,CoverImagePath,GalleryPath,DocumentationPath,InstallationPath,VideoPath,CoverImageFile,DocumentationFiles,InstallationFiles,VideoFiles,GalleryFiles")] Tool tool)
+        public ActionResult Create([Bind(Include = "ToolID,Title,Description,Tag,team,CoverImagePath,GalleryPath,DocumentationPath,InstallationPath,VideoPath,CoverImageFile,DocumentationFiles,InstallationFiles,VideoFiles,GalleryFiles")] Tool tool)
         {
 
             string root = Server.MapPath("~/Assets/Tools/" + tool.Title); // ~/Assets/products/software1
@@ -218,8 +218,6 @@ namespace ASM_Tools.Controllers
 
                 }
 
-
-
                 db.Tools.Add(tool);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -247,83 +245,163 @@ namespace ASM_Tools.Controllers
             {
                 return HttpNotFound();
             }
-            return View(tool);
+
+            var Results = from e in db.Employees
+                          select new
+                          {
+                              e.ID,
+                              e.FirstMidName,
+                              e.LastName,
+                              Checked = ((from te in db.ToolToEmployees
+                                          where (te.ToolID == id) & (te.EmployeeID == e.ID)
+                                          select te).Count() > 0)
+                          };
+
+            var MyViewmodel = new ToolViewModel();
+
+            MyViewmodel.tool = tool;
+
+            var MyCheckBoxList = new List<CheckBoxToolViewModel>();
+
+            foreach (var item in Results)
+            {
+                MyCheckBoxList.Add(new CheckBoxToolViewModel { Id = item.ID, EmployeeFirstMidName = item.FirstMidName, EmployeeLastName = item.LastName, Checked = item.Checked });
+            }
+
+            MyViewmodel.Employees = MyCheckBoxList;
+
+            return View(MyViewmodel);
         }
+
 
         // POST: Editor/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ToolID,Title,Description,Tag,CoverImagePath,GalleryPath,DocumentationPath,InstallationPath,VideoPath,CoverImageFile,DocumentationFile,InstallationFile,VideoFile,GalleryFiles")] Tool tool)
+        public ActionResult Edit(ToolViewModel toolView)
         {
 
             //var ID = tool.CoverImagePath;
 
+            //if (ModelState.IsValid)
+            //{
+
+
+            //    //Edit cover image
+            //    if (tool.CoverImageFile != null)
+            //    {
+            //        //cover photo
+            //        string imageName = Path.GetFileNameWithoutExtension(tool.CoverImageFile.FileName);  //image
+            //        string imageExtension = Path.GetExtension(tool.CoverImageFile.FileName);  //.jpg
+            //        string coverFullName = imageName + imageExtension;  //image.jpg
+
+            //        string oldCoverImage = Request.MapPath(TempData["CoverImagePath"].ToString());
+
+            //        tool.CoverImagePath = "~/Assets/Tools/" + tool.Title + "/cover folder/" + coverFullName;  //  ~/Assets/products/software1/cover image/image.jpg
+            //        coverFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.Title + "/cover folder/" + coverFullName));
+
+            //        //Delete old cover image
+            //        if (System.IO.File.Exists(oldCoverImage))
+            //        {
+            //            System.IO.File.Delete(oldCoverImage);
+            //        }
+            //        tool.CoverImageFile.SaveAs(coverFullName);
+
+            //    }
+            //    //if no file chose keep the original
+            //    else
+            //    {
+            //        tool.CoverImagePath = TempData["CoverImagePath"].ToString();
+            //    }
+
+
+            //    db.Entry(tool).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+            //return View(tool);
+
             if (ModelState.IsValid)
             {
 
+                var MyTool = db.Tools.Find(toolView.ID);
 
                 //Edit cover image
-                if (tool.CoverImageFile != null)
+                if (toolView.CoverImageFile != null)
                 {
                     //cover photo
-                    string imageName = Path.GetFileNameWithoutExtension(tool.CoverImageFile.FileName);  //image
-                    string imageExtension = Path.GetExtension(tool.CoverImageFile.FileName);  //.jpg
+                    string imageName = Path.GetFileNameWithoutExtension(toolView.CoverImageFile.FileName);  //image
+                    string imageExtension = Path.GetExtension(toolView.CoverImageFile.FileName);  //.jpg
                     string coverFullName = imageName + imageExtension;  //image.jpg
 
                     string oldCoverImage = Request.MapPath(TempData["CoverImagePath"].ToString());
 
-                    tool.CoverImagePath = "~/Assets/Tools/" + tool.Title + "/cover folder/" + coverFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-                    coverFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.Title + "/cover folder/" + coverFullName));
+                    MyTool.CoverImagePath = "~/Assets/Tools/" + toolView.tool.Title + "/cover folder/" + coverFullName;  //  ~/Assets/products/software1/cover image/image.jpg
+                    coverFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + toolView.tool.Title + "/cover folder/" + coverFullName));
 
                     //Delete old cover image
                     if (System.IO.File.Exists(oldCoverImage))
                     {
                         System.IO.File.Delete(oldCoverImage);
                     }
-                    tool.CoverImageFile.SaveAs(coverFullName);
+
+                    MyTool.CoverImageFile = toolView.CoverImageFile;
+                    MyTool.CoverImageFile.SaveAs(coverFullName);
 
                 }
                 //if no file chose keep the original
                 else
                 {
-                    tool.CoverImagePath = TempData["CoverImagePath"].ToString();
+                    MyTool.CoverImagePath = TempData["CoverImagePath"].ToString();
                 }
 
-                //Edit video
-                if (tool.CoverImageFile != null)
+                foreach (var item in db.ToolToEmployees)
                 {
-                    //cover photo
-                    string imageName = Path.GetFileNameWithoutExtension(tool.CoverImageFile.FileName);  //image
-                    string imageExtension = Path.GetExtension(tool.CoverImageFile.FileName);  //.jpg
-                    string coverFullName = imageName + imageExtension;  //image.jpg
-
-                    string oldCoverImage = Request.MapPath(TempData["CoverImagePath"].ToString());
-
-                    tool.CoverImagePath = "~/Assets/Tools/" + tool.Title + "/cover folder/" + coverFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-                    coverFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.Title + "/cover folder/" + coverFullName));
-
-                    //Delete old cover image
-                    if (System.IO.File.Exists(oldCoverImage))
+                    if (item.ID == toolView.tool.ToolID)
                     {
-                        System.IO.File.Delete(oldCoverImage);
+                        db.Entry(item).State = EntityState.Deleted;
                     }
-                    tool.CoverImageFile.SaveAs(coverFullName);
-
                 }
-                else
+
+                foreach (var item in toolView.Employees)
                 {
-                    tool.CoverImagePath = TempData["CoverImagePath"].ToString();
+                    if (item.Checked)
+                    {
+                        var tee = from te in db.ToolToEmployees
+                                  where te.ToolID == toolView.tool.ToolID && te.EmployeeID == item.Id
+                                  select te;
+                        if (tee.Count() == 0)
+                        {
+                            db.ToolToEmployees.Add(new ToolToEmployee() { ToolID = toolView.tool.ToolID, EmployeeID = item.Id });
+                        }
+                    }
+                    else
+                    {
+                        var tee = from te in db.ToolToEmployees
+                                  where te.ToolID == toolView.tool.ToolID && te.EmployeeID == item.Id
+                                  select te;
+                        if (tee.Count() != 0)
+                        {
+                            db.ToolToEmployees.Remove(tee.First());
+                        }
+                    }
                 }
 
+                MyTool.Title = toolView.tool.Title;
+                MyTool.Description = toolView.tool.Description;
+                MyTool.Tag = toolView.tool.Tag;
+                MyTool.team = toolView.tool.team;
+                MyTool.GalleryPath = toolView.tool.GalleryPath;
+                MyTool.DocumentationPath = toolView.tool.DocumentationPath;
+                MyTool.InstallationPath = toolView.tool.InstallationPath;
+                MyTool.VideoPath = toolView.tool.VideoPath;
 
-
-                db.Entry(tool).State = EntityState.Modified;
+                db.Entry(MyTool).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(tool);
+            return View(toolView);
         }
 
         // GET: Editor/Delete/5
@@ -347,13 +425,9 @@ namespace ASM_Tools.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Tool tool = db.Tools.Find(id);
-
-
-        
             string fullPath = Server.MapPath("~/Assets/Tools/" + tool.Title);
             if (Directory.Exists(fullPath))
             {
-
                 Directory.Delete(fullPath, true);
             }
             db.Tools.Remove(tool);

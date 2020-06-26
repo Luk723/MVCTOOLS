@@ -41,88 +41,114 @@ namespace ASM_Tools.Controllers
             {
                 return HttpNotFound();
             }
-            return View(tool);
-        }
 
-        // GET: Tools/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+            var Results = from e in db.Employees
+                          select new
+                          {
+                              e.ID,
+                              e.FirstMidName,
+                              e.LastName,
+                              Checked = ((from te in db.ToolToEmployees
+                                          where (te.ToolID == id) & (te.EmployeeID == e.ID)
+                                          select te).Count() > 0)
+                          };
 
-        // POST: Tools/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ToolID,Title,Description,Tag,CoverImagePath,GalleryPath,DocumentationPath,InstallationPath,VideoPath")] Tool tool)
-        {
-            if (ModelState.IsValid)
+            var MyViewmodel = new ToolViewModel();
+
+            MyViewmodel.tool = tool;
+
+            var MyCheckBoxList = new List<CheckBoxToolViewModel>();
+
+            foreach (var item in Results)
             {
-                db.Tools.Add(tool);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                MyCheckBoxList.Add(new CheckBoxToolViewModel { Id = item.ID, EmployeeFirstMidName = item.FirstMidName, EmployeeLastName = item.LastName, Checked = item.Checked });
             }
 
-            return View(tool);
+            MyViewmodel.Employees = MyCheckBoxList;
+
+            return View(MyViewmodel);
+
         }
 
-        // GET: Tools/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Tool tool = db.Tools.Find(id);
-            if (tool == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tool);
-        }
+        //// GET: Tools/Create
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: Tools/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ToolID,Title,Description,Tag,CoverImagePath,GalleryPath,DocumentationPath,InstallationPath,VideoPath")] Tool tool)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(tool).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(tool);
-        }
+        //// POST: Tools/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "ToolID,Title,Description,Tag,CoverImagePath,GalleryPath,DocumentationPath,InstallationPath,VideoPath")] Tool tool)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Tools.Add(tool);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
 
-        // GET: Tools/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Tool tool = db.Tools.Find(id);
-            if (tool == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tool);
-        }
+        //    return View(tool);
+        //}
 
-        // POST: Tools/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Tool tool = db.Tools.Find(id);
-            db.Tools.Remove(tool);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// GET: Tools/Edit/5
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Tool tool = db.Tools.Find(id);
+        //    if (tool == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(tool);
+        //}
+
+        //// POST: Tools/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "ToolID,Title,Description,Tag,CoverImagePath,GalleryPath,DocumentationPath,InstallationPath,VideoPath")] Tool tool)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(tool).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(tool);
+        //}
+
+        //// GET: Tools/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Tool tool = db.Tools.Find(id);
+        //    if (tool == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(tool);
+        //}
+
+        //// POST: Tools/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Tool tool = db.Tools.Find(id);
+        //    db.Tools.Remove(tool);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         public FilePathResult DownloadFile(string FileName)
         {

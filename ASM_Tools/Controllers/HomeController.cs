@@ -30,5 +30,10 @@ namespace ASM_Tools.Controllers
 
             return View();
         }
+
+        public ActionResult UAC()
+        {
+            return View();
+        }
     }
 }
