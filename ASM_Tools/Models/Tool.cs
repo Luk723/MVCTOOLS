@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel;
+using System.Web.Mvc;
 
 namespace ASM_Tools.Models
 {
     public class Tool
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Remote("IsToolIDExist", "EditorTool", ErrorMessage = "Tool ID already taken")]
         public int ToolID { get; set; }
         [DisplayName("Title")]
         public string Title { get; set; }

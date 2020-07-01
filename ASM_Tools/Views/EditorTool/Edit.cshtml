@@ -1,4 +1,5 @@
 ﻿@model ASM_Tools.Models.ToolViewModel
+@using PagedList;
 
 @{
     ViewBag.Title = "Edit";
@@ -12,11 +13,13 @@
 @using (Html.BeginForm("Edit", "EditorTool", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @*@Html.HiddenFor(model => model.Employees)*@
     @Html.HiddenFor(model => model.tool.ToolID)
     @Html.HiddenFor(model => model.tool.GalleryPath)
     @Html.HiddenFor(model => model.tool.DocumentationPath)
     @Html.HiddenFor(model => model.tool.VideoPath)
     @Html.HiddenFor(model => model.tool.InstallationPath)
+    @*@Html.HiddenFor(model => model.tool.CoverImagePath)*@
 
 <div class="form-horizontal">
     <h4>Tool</h4>
@@ -63,21 +66,25 @@
             <input type="file" name="CoverImageFile" class="form" />
         </div>
     </div>
+    
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Employees, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @for (int i = 0; i < Model.Employees.Count(); i++)
-            {
-                @Html.EditorFor(m => Model.Employees[i].Checked)
-                @Html.DisplayFor(m => Model.Employees[i].EmployeeLastName)
-
-                @Html.HiddenFor(m => Model.Employees[i].EmployeeLastName)
-                @Html.HiddenFor(m => Model.Employees[i].Id);
-            }
+        <div class="input-group">
+            <span><input type="text" id="Search" placeholder="Search" class="form-control" /></span>
+            <span>
+                <select id="DropDownList1" Height="72px" Width="184px">
+                    <option Value="">All</option>
+                    <option Value="ATS">ATS</option>
+                    <option Value="ATW">ATW</option>
+                    <option Value="ATHK">ATHK</option>
+                    <option value="COC">COC</option>
+                </select>
+            </span>
+        </div>
+        <div class="employees">
+            @{Html.RenderPartial("EmployeeEditor", Model);}
         </div>
     </div>
-
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -86,6 +93,11 @@
     </div>
 </div>
 }
+
+
+
+
+
 
 <div>
     <ul class="nav nav-tabs">
@@ -143,16 +155,22 @@
     </div>
 </div>
 
-
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
 
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<!--<script src="~/Scripts/jquery-3.4.1.min.js"></script>-->
 
 <script>
+
+    
+
+    @*$(".textbox").each(function () {
+        console.log($(this).attr('id'))
+    })*@
+
+
 
     var ID = @Html.Raw(Model.tool.ToolID);
     $(document).ready(function () {
@@ -226,8 +244,6 @@
 
 
     })
-
-
     @*
         function check1() {
             if ($('#firstTab').is(':visible')) {
@@ -246,10 +262,6 @@
             }
         }*@
 
-
-
-
-
 </script>
 
 <style>
@@ -265,4 +277,10 @@
         ul.nav.nav-tabs li.active a {
             border-top: 3px solid #16a765;
         }
+
+    .employees {
+        height: 500px;
+        width: 100%;
+        overflow-y: auto;
+    }
 </style>

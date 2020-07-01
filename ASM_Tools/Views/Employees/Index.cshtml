@@ -30,24 +30,24 @@
         </div>
     </section>
 
-    <div class="album py-5 bg-light">
+    <!--<div class="album py-5 bg-light">
         <div class="container">
 
-            <div class="row">
+            <div class="row">-->
 
-                @foreach (var item in Model)
-                {
+                @*@foreach (var item in Model)
+                {*@
 
-                    <div class="col-md-4">
-                        <div class="panel mb-4 box-shadow">
-                            <img class="panel-heading" src="@Url.Content(item.DisplayPhotoPath)" style='height: 100%;width: 100%;object-fit: contain;max-height: 20em;min-height:20em;'>
-                            <div class="panel-body" style="">
-                                <h3>@item.LastName</h3>
-                                <p class="panel-text">@item.JobTitle</p>
-                                <div class="d-flex justify-content-between" style="text-align:right">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("View", "Details", new { id = item.ID })</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-target="#modalPopUp" data-toggle="modal">More</button>
+                    <!--<div class="col-md-4">
+                        <div class="panel mb-4 box-shadow">-->
+                            @*<img class="panel-heading" src="@Url.Content(item.DisplayPhotoPath)" style='height: 100%;width: 100%;object-fit: contain;max-height: 20em;min-height:20em;'>*@
+                            <!--<div class="panel-body" style="">-->
+                                @*<h3>@item.LastName</h3>*@
+                                @*<p class="panel-text">@item.JobTitle</p>*@
+                                <!--<div class="d-flex justify-content-between" style="text-align:right">
+                                    <div class="btn-group">-->
+                                        @*<button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("View", "Details", new { id = item.ID })</button>*@
+                                        <!--<button type="button" class="btn btn-sm btn-outline-secondary" data-target="#modalPopUp" data-toggle="modal">More</button>
 
 
                                         <!--<div class="modal" id="modalPopUp" ;">
@@ -55,18 +55,19 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-                                        @*<h4 class="modal-title">@item.LastName</h4>*@
-                                        <!--</div>
+                                        <!--@*<h4 class="modal-title">@item.LastName</h4>*@-->
+                                        <!--<!--</div>
                                         <div class="modal-body">-->
-                                        @*<img class="panel-heading" src="@Url.Content(item.CoverImagePath)" style='height: 100%; width: 100%; object-fit: contain'>*@
-                                        <!--<div style="text-align:center">-->
-                                        @*<h4>@item.Title</h4>*@
-                                        <!--<hr />
+                                        <!--@*<img class="panel-heading" src="@Url.Content(item.CoverImagePath)" style='height: 100%; width: 100%; object-fit: contain'>*@-->
+                                        <!--<!--<div style="text-align:center">-->
+                                        <!--<!--<div style="text-align:center">-->
+                                        <!--@*<h4>@item.Title</h4>*@-->
+                                        <!--<!--<hr />
                                         <p>-->
-                                        @*All content rendered is from the first item.*@
+                                        <!--@*All content rendered is from the first item.*@
                                         @*need to make it render the correct content*@
 
-                                        @*@item.Description*@
+                                        @*@item.Description*@-->
                                         <!--</p>
                                                         </div>
                                                     </div>
@@ -81,12 +82,12 @@
 
 
 
-                                    </div>
+                                    <!--</div>
                                     <small class="text-muted">9 mins</small>
-                                </div>
-                                <span class="label label-info">@item.team</span>
+                                </div>-->
+                                @*<span class="label label-info">@item.team</span>*@
 
-                            </div>
+                            <!--</div>
                         </div>
                     </div>
 
@@ -95,53 +96,52 @@
 
             </div>
         </div>
-    </div>
+    </div>-->
 
     <div class="container">
         <div class="row">
             <div>
                 @foreach (var item in Model)
                 {
-                    <div class="col-md-4 col-sm-6 col-xs-1">
+                    <div class="col-md-4">
+                        <div class="panel">
 
-                        <div class="card-container">
-                            <span class="pro">@item.team</span>
-                            <img class="round" src="@Url.Content(item.DisplayPhotoPath)" alt="user" />
-                            <h3>@item.FirstMidName @item.LastName </h3>
-                            <span class="label label-info" style="font-size: 1em">@item.Department</span>
-                            <p>User interface designer and <br /> front-end developer</p>
-                            <div class="buttons">
-                                <button class="primary">
-                                    Message
-                                </button>
-                                <button class="primary ghost">
-                                    Following
-                                </button>
+                            <div class="card-container">
+                                <span class="pro">@item.team</span>
+                                <div class="panel-body">
+                                    <img class="round" src="@Url.Content(item.DisplayPhotoPath)" alt="user" />
+                                    <div style="margin: 20px 0px;">
+                                        <h3>@item.FirstMidName @item.LastName </h3>
+                                        <span class="label label-info" style="font-size: 1em;">@item.Department</span>
+                                    </div>
+                                    <p>User interface designer and <br /> front-end developer</p>
+                                    <div class="buttons">
+                                        @Html.ActionLink("View", "Details", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+
+                                        @*<button class="primary">
+                                            View
+                                        </button>
+                                        <button class="primary ghost">
+                                            Following
+                                        </button>*@
+                                    </div>
+                                </div>
+                                    <div class="skills">
+                                        <h6>Skills</h6>
+                                        <ul>
+                                            <li>UI / UX</li>
+                                            <li>Front End Development</li>
+                                            <li>HTML</li>
+                                            <li>CSS</li>
+                                            <li>JavaScript</li>
+                                            <li>React</li>
+                                            <li>Node</li>
+                                        </ul>
+                                    </div>
                             </div>
-                            <div class="skills">
-                                <h6>Skills</h6>
-                                <ul>
-                                    <li>UI / UX</li>
-                                    <li>Front End Development</li>
-                                    <li>HTML</li>
-                                    <li>CSS</li>
-                                    <li>JavaScript</li>
-                                    <li>React</li>
-                                    <li>Node</li>
-                                </ul>
-                            </div>
+
+                            
                         </div>
-
-                        <footer>
-                            <p>
-                                Created with <i class="fa fa-heart"></i> by
-                                <a target="_blank" href="https://florin-pop.com">Florin Pop</a>
-                                - Read how I created this
-                                <a target="_blank" href="https://florin-pop.com/blog/2019/04/profile-card-design">here</a>
-                                - Design made by
-                                <a target="_blank" href="https://dribbble.com/shots/6276930-Profile-Card-UI-Design">Ildiesign</a>
-                            </p>
-                        </footer>
                     </div>
                 }
 
@@ -156,10 +156,17 @@
 <style>
     .panel {
         transition: box-shadow 0.5s;
+        @*background: green*@
+        border-radius: 5px;
     }
 
         .panel:hover {
             box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+        }
+        .panel-heading{
+            border-radius: 50%;
+            max-height: 150px;
+            padding: 70px;
         }
 
     * {
@@ -184,28 +191,30 @@
     h6 {
         margin: 5px 0;
         text-transform: uppercase;
+        color: white;
     }
 
-    p {
+    .panel-body p {
         font-size: 14px;
         line-height: 21px;
+        color: black;
     }
 
     .card-container {
-        background-color: #B3B8CD;
+        background-color: white;
         border-radius: 5px;
         box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.7);
         color: #B3B8CD;
         padding-top: 30px;
         position: relative;
-        width: 350px;
+        @*width: 350px;*@
         max-width: 100%;
         text-align: center;
-        transition: box-shadow 0.5s;
+        @*transition: box-shadow 0.5s;*@
     }
-        .card-container:hover {
+        @*.card-container:hover {
             box-shadow: 5px 0px 40px rgba(0,0,0, .2);
-        }
+        }*@
 
         .card-container .pro {
             color: #231E39;
@@ -220,7 +229,7 @@
         }
 
         .card-container .round {
-            border: 1px solid #03BFCB;
+            border: 1px solid red;
             border-radius: 50%;
             padding: 7px;
             max-height: 230px;
@@ -242,10 +251,11 @@
         }
 
     .skills {
-        background-color: #1F1A36;
+        background-color: red;
         text-align: left;
         padding: 15px;
         margin-top: 30px;
+        color: white;
     }
 
         .skills ul {
@@ -255,15 +265,16 @@
         }
 
             .skills ul li {
-                border: 1px solid #2D2747;
+                border: 1px solid #fff;
                 border-radius: 2px;
                 display: inline-block;
                 font-size: 12px;
                 margin: 0 7px 7px 0;
                 padding: 7px;
+                @*color: white;*@
             }
 
-    footer {
+    @*footer {
         background-color: #222;
         color: #fff;
         font-size: 14px;
@@ -285,7 +296,7 @@
 
         footer a {
             color: #3c97bf;
-            text-decoration: none;
-        }
+            text-decoration: none;*@
+        @*}*@
 
 </style>

@@ -1,0 +1,160 @@
+﻿@model ASM_Tools.Models.EmployeeViewModel
+
+
+
+<div class="col-md-10">
+
+    <table class="table">
+        <tr>
+            <th>
+                Projects
+            </th>
+            <th>
+                Preview
+            </th>
+            <th>
+                Role
+            </th>
+            <th>
+                Add/Remove
+            </th>
+        </tr>
+
+        @for (int i = 0; i < Model.Tools.Count(); i++)
+        {
+            var roleID = "role" + Model.Tools[i].tool.ToolID;
+            var checkID = "check" + Model.Tools[i].tool.ToolID;
+            var rowID = "row" + Model.Tools[i].tool.ToolID;
+            var ModalID = "Modal" + Model.Tools[i].tool.ToolID;
+
+            <tr id="@rowID" class="Search">
+                <td class="Title">
+                    <div id="@Model.Tools[i].Id">
+                        @Html.DisplayFor(m => Model.Tools[i].tool.Title)
+                    </div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-target="#@ModalID" data-toggle="modal">More</button>
+
+                    <div class="modal" id="@ModalID">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">@Model.Tools[i].tool.Title</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <img class="panel-heading" src="@Url.Content(@Model.Tools[i].tool.CoverImagePath)" style='height: 100%; width: 100%; object-fit: contain'>
+                                    <div style="text-align:center">
+                                        <h4>@Model.Tools[i].tool.Title</h4>
+                                        <hr />
+                                        <p>
+
+                                            @*All content rendered is from the first item.*@
+                                            @*need to make it render the correct content*@
+
+                                            @Model.Tools[i].tool.Description
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => Model.Tools[i].Role, new { id = @roleID })
+                </td>
+                <td>
+                    @Html.CheckBoxFor(m => Model.Tools[i].Checked, new { id = @checkID, @class = "checkbox", onchange = "change(id)" })
+                </td>
+
+                @Html.HiddenFor(m => Model.Tools[i].tool.ToolID)
+                @*@Html.HiddenFor(m => Model.Tools[i].Id)*@
+            </tr>
+
+        }
+    </table>
+</div>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1) {
+                return true;
+            }
+        }
+        $("#Search").keyup(function () {
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+                if (!Contains($(this).find(".Title").text().toLowerCase(), searchText)) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            })
+        })
+        $("#DropDownList1").change(function () {
+            @*console.log($(this).val())*@
+            var searchTeam = $("#DropDownList1").val();
+            $(".Search").each(function () {
+                if (!Contains($(this).text(), searchTeam)) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            })
+        })
+
+    })
+
+    $(".checkbox").each(function () {
+        @*console.log($(this).attr('id'))*@
+        var tb = $(this).attr('id')
+
+        if ($('#' + tb).prop("checked")) {
+            tb = tb.replace("check", "")
+            tb = "role" + tb
+
+            $('#' + tb).show()
+
+        }
+        else {
+            tb = tb.replace("check", "")
+            tb = "role" + tb
+
+            $('#' + tb).hide();
+        }
+    })
+
+
+    function change(id) {
+        @*console.log(id)*@
+        var tb = id
+        if ($('#' + id).prop("checked")) {
+            tb = tb.replace("check", "")
+            tb = "role" + tb
+
+            $('#' + tb).show()
+
+        }
+        else {
+            tb = tb.replace("check", "")
+            tb = "role" + tb
+
+            $('#' + tb).hide();
+        }
+    }
+</script>

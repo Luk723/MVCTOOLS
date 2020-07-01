@@ -24,8 +24,10 @@ namespace ASM_Tools.DAL
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
-        public System.Data.Entity.DbSet<ASM_Tools.Models.EmployeeViewModel> EmployeeViewModels { get; set; }
+        //public DbSet<ASM_Tools.Models.EmployeeViewModel> EmployeeViewModels { get; set; }
 
-        public System.Data.Entity.DbSet<ASM_Tools.Models.ToolViewModel> ToolViewModels { get; set; }
+        //public System.Data.Entity.DbSet<ASM_Tools.Models.ToolViewModel> ToolViewModels { get; set; }
+
+        //public System.Data.Entity.DbSet<ASM_Tools.Models.CheckBoxToolViewModel> CheckBoxToolViewModels { get; set; }
     }
 }

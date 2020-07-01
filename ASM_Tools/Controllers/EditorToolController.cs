@@ -43,6 +43,18 @@ namespace ASM_Tools.Controllers
             }
             return View(tool);
         }
+        public JsonResult IsToolIDExist(int ToolID)
+        {
+            var validateID = db.Tools.FirstOrDefault(x => x.ToolID == ToolID);
+            if (validateID != null)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         // GET: Editor/Create
         public ActionResult Create()
@@ -58,22 +70,21 @@ namespace ASM_Tools.Controllers
         public ActionResult Create([Bind(Include = "ToolID,Title,Description,Tag,team,CoverImagePath,GalleryPath,DocumentationPath,InstallationPath,VideoPath,CoverImageFile,DocumentationFiles,InstallationFiles,VideoFiles,GalleryFiles")] Tool tool)
         {
 
-            string root = Server.MapPath("~/Assets/Tools/" + tool.Title); // ~/Assets/products/software1
+            string root = Server.MapPath("~/Assets/Tools/" + tool.ToolID); // ~/Assets/products/software1
             string coverFolder = root + "\\cover folder";
             string documentationFolder = root + "\\documentation";
             string galleryFolder = root + "\\gallery";
             string installationFolder = root + "\\installation";
             string videoFolder = root + "\\video";
 
-            int ID = tool.ToolID;
 
             //cover photo
             string imageName = Path.GetFileNameWithoutExtension(tool.CoverImageFile.FileName);  //image
             string imageExtension = Path.GetExtension(tool.CoverImageFile.FileName);  //.jpg
             string coverFullName = imageName + imageExtension;  //image.jpg
 
-            tool.CoverImagePath = "~/Assets/Tools/" + tool.Title + "/cover folder/" + coverFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-            coverFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.Title + "/cover folder/" + coverFullName));
+            tool.CoverImagePath = "~/Assets/Tools/" + tool.ToolID + "/cover folder/" + coverFullName;  //  ~/Assets/products/software1/cover image/image.jpg
+            coverFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.ToolID + "/cover folder/" + coverFullName));
 
 
             //documentation 
@@ -116,10 +127,10 @@ namespace ASM_Tools.Controllers
             //}
 
             
-            tool.GalleryPath = "~/Assets/Tools/" + tool.Title + "/gallery/";  //  ~/Assets/products/software1/gallery/
-            tool.DocumentationPath = "~/Assets/Tools/" + tool.Title + "/documentation/";
-            tool.InstallationPath = "~/Assets/Tools/" + tool.Title + "/Installation/";
-            tool.VideoPath = "~/Assets/Tools/" + tool.Title + "/Video/";
+            tool.GalleryPath = "~/Assets/Tools/" + tool.ToolID + "/gallery/";  //  ~/Assets/products/software1/gallery/
+            tool.DocumentationPath = "~/Assets/Tools/" + tool.ToolID + "/documentation/";
+            tool.InstallationPath = "~/Assets/Tools/" + tool.ToolID + "/Installation/";
+            tool.VideoPath = "~/Assets/Tools/" + tool.ToolID + "/Video/";
 
             if (ModelState.IsValid && !Directory.Exists(root))
             {
@@ -155,7 +166,7 @@ namespace ASM_Tools.Controllers
                         string galleryFileExtention = Path.GetExtension(file.FileName);  //.jpg
                         string galleryFileFullName = galleryFileName + galleryFileExtention;
 
-                        galleryFileFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.Title + "/gallery/" + galleryFileFullName)); ;  //image.jpg
+                        galleryFileFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.ToolID + "/gallery/" + galleryFileFullName)); ;  //image.jpg
                         //Save file to server folder  
                         file.SaveAs(galleryFileFullName);
                         //assigning file uploaded status to ViewBag for showing message to user.  
@@ -173,7 +184,7 @@ namespace ASM_Tools.Controllers
                         string documentFileExtention = Path.GetExtension(file.FileName);  //.jpg
                         string documentFileFullName = documentFileName + documentFileExtention;
 
-                        documentFileFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.Title + "/documentation/" + documentFileFullName)); ;  //image.jpg
+                        documentFileFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.ToolID + "/documentation/" + documentFileFullName)); ;  //image.jpg
                         //Save file to server folder  
                         file.SaveAs(documentFileFullName);
                         //assigning file uploaded status to ViewBag for showing message to user.  
@@ -191,7 +202,7 @@ namespace ASM_Tools.Controllers
                         string installationExtention = Path.GetExtension(file.FileName);  //.jpg
                         string installationFileFullName = installationFileName + installationExtention;
 
-                        installationFileFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.Title + "/installation/" + installationFileFullName)); ;  //image.jpg
+                        installationFileFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.ToolID + "/installation/" + installationFileFullName)); ;  //image.jpg
                         //Save file to server folder  
                         file.SaveAs(installationFileFullName);
                         //assigning file uploaded status to ViewBag for showing message to user.  
@@ -209,7 +220,7 @@ namespace ASM_Tools.Controllers
                         string videoExtention = Path.GetExtension(file.FileName);  //.jpg
                         string videoFileFullName = videoFileName + videoExtention;
 
-                        videoFileFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.Title + "/video/" + videoFileFullName)); ;  //image.jpg
+                        videoFileFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.ToolID + "/video/" + videoFileFullName)); ;  //image.jpg
                         //Save file to server folder  
                         file.SaveAs(videoFileFullName);
                         //assigning file uploaded status to ViewBag for showing message to user.  
@@ -249,12 +260,16 @@ namespace ASM_Tools.Controllers
             var Results = from e in db.Employees
                           select new
                           {
-                              e.ID,
-                              e.FirstMidName,
-                              e.LastName,
+                              //e.ID,
+                              //e.FirstMidName,
+                              //e.LastName,
+                              employee = e,
                               Checked = ((from te in db.ToolToEmployees
                                           where (te.ToolID == id) & (te.EmployeeID == e.ID)
-                                          select te).Count() > 0)
+                                          select te).Count() > 0),
+                              Role = ((from te in db.ToolToEmployees
+                                          where (te.ToolID == id) & (te.EmployeeID == e.ID)
+                                          select te.Role).FirstOrDefault())
                           };
 
             var MyViewmodel = new ToolViewModel();
@@ -265,7 +280,7 @@ namespace ASM_Tools.Controllers
 
             foreach (var item in Results)
             {
-                MyCheckBoxList.Add(new CheckBoxToolViewModel { Id = item.ID, EmployeeFirstMidName = item.FirstMidName, EmployeeLastName = item.LastName, Checked = item.Checked });
+                MyCheckBoxList.Add(new CheckBoxToolViewModel { Employee = item.employee, Checked = item.Checked, Role = item.Role });
             }
 
             MyViewmodel.Employees = MyCheckBoxList;
@@ -281,6 +296,93 @@ namespace ASM_Tools.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ToolViewModel toolView)
         {
+
+            if (ModelState.IsValid)
+            {
+
+                var MyTool = db.Tools.Find(toolView.ID);
+
+                //Edit cover image
+                if (toolView.CoverImageFile != null)
+                {
+                    //cover photo
+                    string imageName = Path.GetFileNameWithoutExtension(toolView.CoverImageFile.FileName);  //image
+                    string imageExtension = Path.GetExtension(toolView.CoverImageFile.FileName);  //.jpg
+                    string coverFullName = imageName + imageExtension;  //image.jpg
+
+                    string oldCoverImage = Request.MapPath(TempData["CoverImagePath"].ToString());
+
+                    MyTool.CoverImagePath = "~/Assets/Tools/" + toolView.tool.ToolID + "/cover folder/" + coverFullName;  //  ~/Assets/products/software1/cover image/image.jpg
+                    coverFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + toolView.tool.ToolID + "/cover folder/" + coverFullName));
+
+                    //Delete old cover image
+                    if (System.IO.File.Exists(oldCoverImage))
+                    {
+                        System.IO.File.Delete(oldCoverImage);
+                    }
+
+                    MyTool.CoverImageFile = toolView.CoverImageFile;
+                    MyTool.CoverImageFile.SaveAs(coverFullName);
+
+                }
+                //if no file chose keep the original
+                else
+                {
+                    MyTool.CoverImagePath = TempData["CoverImagePath"].ToString();
+                }
+
+                foreach (var item in db.ToolToEmployees)
+                {
+                    if (item.ID == toolView.tool.ToolID)
+                    {
+                        db.Entry(item).State = EntityState.Deleted;
+                    }
+                }
+
+                foreach (var item in toolView.Employees)
+                {
+                    if (item.Checked)
+                    {
+                        var role = item.Role;
+                        var tee = from te in db.ToolToEmployees
+                                  where te.ToolID == toolView.tool.ToolID && te.EmployeeID == item.Employee.ID
+                                  select te;
+                        if (tee.Count() == 0)
+                        {
+                            db.ToolToEmployees.Add(new ToolToEmployee() { ToolID = toolView.tool.ToolID, EmployeeID = item.Employee.ID , Role = item.Role});
+                        }
+                        else
+                        {
+                            tee.First().Role = role;
+                        }
+                    }
+                    else
+                    {
+                        var tee = from te in db.ToolToEmployees
+                                  where te.ToolID == toolView.tool.ToolID && te.EmployeeID == item.Employee.ID
+                                  select te;
+                        if (tee.Count() != 0)
+                        {
+                            db.ToolToEmployees.Remove(tee.First());
+                        }
+                    }
+                }
+
+                MyTool.Title = toolView.tool.Title;
+                MyTool.Description = toolView.tool.Description;
+                MyTool.Tag = toolView.tool.Tag;
+                MyTool.team = toolView.tool.team;
+                MyTool.GalleryPath = toolView.tool.GalleryPath;
+                MyTool.DocumentationPath = toolView.tool.DocumentationPath;
+                MyTool.InstallationPath = toolView.tool.InstallationPath;
+                MyTool.VideoPath = toolView.tool.VideoPath;
+
+                db.Entry(MyTool).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(toolView);
+
 
             //var ID = tool.CoverImagePath;
 
@@ -321,87 +423,6 @@ namespace ASM_Tools.Controllers
             //    return RedirectToAction("Index");
             //}
             //return View(tool);
-
-            if (ModelState.IsValid)
-            {
-
-                var MyTool = db.Tools.Find(toolView.ID);
-
-                //Edit cover image
-                if (toolView.CoverImageFile != null)
-                {
-                    //cover photo
-                    string imageName = Path.GetFileNameWithoutExtension(toolView.CoverImageFile.FileName);  //image
-                    string imageExtension = Path.GetExtension(toolView.CoverImageFile.FileName);  //.jpg
-                    string coverFullName = imageName + imageExtension;  //image.jpg
-
-                    string oldCoverImage = Request.MapPath(TempData["CoverImagePath"].ToString());
-
-                    MyTool.CoverImagePath = "~/Assets/Tools/" + toolView.tool.Title + "/cover folder/" + coverFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-                    coverFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + toolView.tool.Title + "/cover folder/" + coverFullName));
-
-                    //Delete old cover image
-                    if (System.IO.File.Exists(oldCoverImage))
-                    {
-                        System.IO.File.Delete(oldCoverImage);
-                    }
-
-                    MyTool.CoverImageFile = toolView.CoverImageFile;
-                    MyTool.CoverImageFile.SaveAs(coverFullName);
-
-                }
-                //if no file chose keep the original
-                else
-                {
-                    MyTool.CoverImagePath = TempData["CoverImagePath"].ToString();
-                }
-
-                foreach (var item in db.ToolToEmployees)
-                {
-                    if (item.ID == toolView.tool.ToolID)
-                    {
-                        db.Entry(item).State = EntityState.Deleted;
-                    }
-                }
-
-                foreach (var item in toolView.Employees)
-                {
-                    if (item.Checked)
-                    {
-                        var tee = from te in db.ToolToEmployees
-                                  where te.ToolID == toolView.tool.ToolID && te.EmployeeID == item.Id
-                                  select te;
-                        if (tee.Count() == 0)
-                        {
-                            db.ToolToEmployees.Add(new ToolToEmployee() { ToolID = toolView.tool.ToolID, EmployeeID = item.Id });
-                        }
-                    }
-                    else
-                    {
-                        var tee = from te in db.ToolToEmployees
-                                  where te.ToolID == toolView.tool.ToolID && te.EmployeeID == item.Id
-                                  select te;
-                        if (tee.Count() != 0)
-                        {
-                            db.ToolToEmployees.Remove(tee.First());
-                        }
-                    }
-                }
-
-                MyTool.Title = toolView.tool.Title;
-                MyTool.Description = toolView.tool.Description;
-                MyTool.Tag = toolView.tool.Tag;
-                MyTool.team = toolView.tool.team;
-                MyTool.GalleryPath = toolView.tool.GalleryPath;
-                MyTool.DocumentationPath = toolView.tool.DocumentationPath;
-                MyTool.InstallationPath = toolView.tool.InstallationPath;
-                MyTool.VideoPath = toolView.tool.VideoPath;
-
-                db.Entry(MyTool).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(toolView);
         }
 
         // GET: Editor/Delete/5
@@ -522,9 +543,10 @@ namespace ASM_Tools.Controllers
             }
         }
 
-        public FileResult PreviewFile(string FileName)
+        public FileResult GetPreview(string FileName)
         {
-            byte[] FileBytes = System.IO.File.ReadAllBytes(FileName);
+            //string ReportURL = filePath;
+            byte[] FileBytes = System.IO.File.ReadAllBytes(Server.MapPath(FileName));
             return File(FileBytes, "application/pdf");
         }
     }

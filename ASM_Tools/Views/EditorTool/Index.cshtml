@@ -17,72 +17,6 @@
         <input type="submit" value="Search" />
     </p>
 }
-@*<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tag)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CoverImagePath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GalleryPath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DocumentationPath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InstallationPath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VideoPath)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tag)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CoverImagePath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GalleryPath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DocumentationPath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InstallationPath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VideoPath)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ToolID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ToolID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ToolID })
-            </td>
-        </tr>
-    }
-
-</table>*@
-
 
 <main role="main">
 
@@ -167,23 +101,5 @@
         </div>
     </div>
 
-    <div>
-        <div class="row">
-
-            @foreach (var item in Model) 
-            {
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        
-                       <img src="@Url.Content(item.CoverImagePath)" alt="Lights" style="width:100%">
-                    </div>
-                    <div class="caption">
-                        <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
-                    </div>
-                        
-                </div>
-            }
-
-        </div>
-    </div>
+  
 </main>

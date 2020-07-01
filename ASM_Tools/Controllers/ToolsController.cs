@@ -45,12 +45,14 @@ namespace ASM_Tools.Controllers
             var Results = from e in db.Employees
                           select new
                           {
-                              e.ID,
-                              e.FirstMidName,
-                              e.LastName,
+                              employee = e,
                               Checked = ((from te in db.ToolToEmployees
                                           where (te.ToolID == id) & (te.EmployeeID == e.ID)
-                                          select te).Count() > 0)
+                                          select te).Count() > 0),
+                              Role = ((from te in db.ToolToEmployees
+                                       where (te.ToolID == id) & (te.EmployeeID == e.ID)
+                                       select te.Role).FirstOrDefault())
+
                           };
 
             var MyViewmodel = new ToolViewModel();
@@ -61,8 +63,11 @@ namespace ASM_Tools.Controllers
 
             foreach (var item in Results)
             {
-                MyCheckBoxList.Add(new CheckBoxToolViewModel { Id = item.ID, EmployeeFirstMidName = item.FirstMidName, EmployeeLastName = item.LastName, Checked = item.Checked });
+                MyCheckBoxList.Add(new CheckBoxToolViewModel { Employee = item.employee, Checked = item.Checked, Role = item.Role });
             }
+
+            List<Employee> ees = db.Employees.ToList();
+            ViewBag.E = ees;
 
             MyViewmodel.Employees = MyCheckBoxList;
 
@@ -152,7 +157,6 @@ namespace ASM_Tools.Controllers
 
         public FilePathResult DownloadFile(string FileName)
         {
-            
             return File(FileName, System.Net.Mime.MediaTypeNames.Application.Octet, Server.UrlEncode(FileName));
         }
 

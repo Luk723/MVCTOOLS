@@ -11,6 +11,13 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.employee.ID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.employee.ID)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.employee.LastName)
         </dt>
 
@@ -95,12 +102,12 @@
         </dt>
 
         <dd>
-            @foreach(var item in Model.Tools)
+            @foreach (var item in Model.Tools)
             {
                 if (item.Checked)
                 {
-                    <div>@item.ToolName</div>
-                    <div>@Html.ActionLink(item.ToolName, "Details", "Tools", new { id = item.Id }, null)</div>
+                    <div>@item.tool.Title</div>
+                    <div>@Html.ActionLink(item.tool.Title, "Details", "Tools", new { id = item.tool.ToolID }, null)</div>
                 }
             }
         </dd>

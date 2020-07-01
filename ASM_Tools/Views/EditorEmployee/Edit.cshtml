@@ -10,7 +10,7 @@
 @using (Html.BeginForm("Edit", "EditorEmployee", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Employee</h4>
         <hr />
@@ -99,19 +99,23 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Tools, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @for(int i = 0; i < Model.Tools.Count(); i++)
-                {
-                    @Html.EditorFor(m => Model.Tools[i].Checked)
-                    @Html.DisplayFor(m => Model.Tools[i].ToolName)
 
-                    @Html.HiddenFor(m => Model.Tools[i].ToolName)
-                    @Html.HiddenFor(m => Model.Tools[i].Id);
-                }
+            <div class="input-group">
+                <input type="text" id="Search" placeholder="Search" class="form-control" />
+
+                <select id="DropDownList1" Height="72px" Width="184px">
+                    <option Value="">All</option>
+                    <option Value="ATS">ATS</option>
+                    <option Value="ATW">ATW</option>
+                    <option Value="ATHK">ATHK</option>
+                    <option value="COC">COC</option>
+                </select>
+            </div>
+
+            <div class="tools container">
+                @{Html.RenderPartial("ToolEditor", Model);}
             </div>
         </div>
-
-
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -128,3 +132,12 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+
+<style>
+    .tools {
+        height: 500px;
+        width: 100%;
+        overflow-y: auto;
+    }
+</style>

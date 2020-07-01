@@ -40,6 +40,7 @@
 
         long fileSize = new System.IO.FileInfo(Server.MapPath(file)).Length;
         string ext = new System.IO.FileInfo(Server.MapPath(file)).Extension;
+
         <tr>
             <td>
                 @*@Html.ActionLink("Download cover", "DownloadFile", "Tools", new { FileName = file }, null)*@
@@ -52,8 +53,7 @@
                 @(fileSize/1048576) Mb
             </td>
             <td>
-                @*@Html.ActionLink("Preview", "PreviewFile", "EditorTool", new { FileName = file }, null);*@
-                @*<a id="preview" href="/EditorTool/PreviewFile" data-id="@file">Preview</a>*@
+                <a href="@Url.Action("GetPreview", "EditorTool", new { FileName = file})" target="_blank">Preview</a>
             </td>
             <td>
                 <button class="btn-warning deleteDocumentation" id="deleteDocumentation" data-id="@file"> Remove </button>
@@ -66,12 +66,11 @@
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 
 <script>
-    @*$(".preview").click(function (event) {
-        var path = $(this).attr("data-id");
+    function GetPreview(ext) {
 
-        event.preventDefault();
-        window.open('/EditorTool/PreviewFile', path);
-    })*@
+        window.open('/EditorTool/GetPreview?FileName=' + ext, "_blank");
+    };
+
 
     @*var ID = @Html.Raw(Model.ToolID);*@
     $(".deleteDocumentation").click(function (event) {

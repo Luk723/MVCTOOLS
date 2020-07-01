@@ -13,5 +13,6 @@ namespace ASM_Tools.Models
         public List<CheckBoxToolViewModel> Employees { get; set; }
         [NotMapped]
         public HttpPostedFileBase CoverImageFile { get; set; }
+        public string Role { get; set; }
     }
 }

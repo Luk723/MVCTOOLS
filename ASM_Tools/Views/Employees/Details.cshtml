@@ -4,44 +4,40 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
 
-<div class="container" style="margin-bottom:50px">
-    <h1 style="text-align:center">@Model.employee.LastName</h1>
+<div class="container" style="margin:50px">
+    @*<h1 style="text-align:center">@Model.employee.LastName</h1>*@
     <div style=" text-align: center">
-        <img src="@Url.Content(Model.employee.DisplayPhotoPath)" style="max-width:80%;height:auto;" />
+        <img src="@Url.Content(Model.employee.DisplayPhotoPath)" style="max-width:40%;height:auto;border-radius:50%; margin:60px 0px" />
+    </div>
+    
+    <div>
+        <h1 style="text-align:center;">
+            @Model.employee.FirstMidName @Model.employee.LastName
+        </h1>
     </div>
 
+    <div style="text-align:center">
+        <div class="label label-info label" style="font-size:2em;">@Model.employee.Department</div>
+    </div>
+
+
 </div>
+
 
 <div>
     <h4>Employee</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.LastName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.FirstMidName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.FirstMidName)
-        </dd>
-
-        <dt>
+        
+        @*<dt>
             @Html.DisplayNameFor(model => model.employee.salutation)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.employee.salutation)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.employee.JoinedDate)
@@ -59,13 +55,13 @@
             @Html.DisplayFor(model => model.employee.JobTitle)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.employee.Department)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.employee.Department)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.employee.CompanyEmail)
@@ -102,7 +98,8 @@
             {
                 if (item.Checked)
                 {
-                    <div>@Html.ActionLink(item.ToolName, "Details", "Tools", new { id = item.Id }, null)</div>
+                    <div>@Html.ActionLink(item.tool.Title, "Details", "Tools", new { id = item.tool.ToolID }, null)</div>
+                    <div>@item.Role</div>
                 }
             }
         </dd>
@@ -110,7 +107,26 @@
 
     </dl>
 </div>
+
+<div class="container">
+    <div style="text-align:center"><h2>Projects</h2></div>
+    @foreach (var item in Model.Tools)
+    {
+        if (item.Checked)
+        {
+            
+            <div>@Html.ActionLink(item.tool.Title, "Details", "Tools", new { id = item.tool.ToolID }, null)</div>
+            <div>@item.Role</div>
+        }
+    }
+</div>
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<style>
+    @*.container {
+        box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+    }*@
+</style>

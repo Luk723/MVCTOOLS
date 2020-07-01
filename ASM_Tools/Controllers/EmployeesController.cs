@@ -42,6 +42,9 @@ namespace ASM_Tools.Controllers
                 Employees = Employees.Where(e => e.team.ToString() == team);
             }
 
+            List<Tool> tts = db.Tools.ToList();
+            ViewBag.T = tts;
+            
             return View(Employees.ToList());
         }
 
@@ -60,11 +63,14 @@ namespace ASM_Tools.Controllers
             var Results = from t in db.Tools
                           select new
                           {
-                              t.ToolID,
-                              t.Title,
+                              tool = t,
                               Checked = ((from te in db.ToolToEmployees
                                           where (te.EmployeeID == id) & (te.ToolID == t.ToolID)
-                                          select te).Count() > 0)
+                                          select te).Count() > 0),
+                              Role = ((from te in db.ToolToEmployees
+                                       where (te.EmployeeID == id) & (te.ToolID == t.ToolID)
+                                       select te.Role).FirstOrDefault())
+
                           };
 
             var MyViewmodel = new EmployeeViewModel();
@@ -75,7 +81,7 @@ namespace ASM_Tools.Controllers
 
             foreach (var item in Results)
             {
-                MyCheckBoxList.Add(new CheckBoxEmployeeViewModel { Id = item.ToolID, ToolName = item.Title, Checked = item.Checked });
+                MyCheckBoxList.Add(new CheckBoxEmployeeViewModel { tool = item.tool, Checked = item.Checked, Role = item.Role });
             }
 
             MyViewmodel.Tools = MyCheckBoxList;

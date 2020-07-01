@@ -8,8 +8,8 @@ namespace ASM_Tools.Models
     public class CheckBoxEmployeeViewModel
     {
         public int Id { get; set; }
-        public string ToolName { get; set; }
-
+        public Tool tool { get; set; }
         public bool Checked { get; set; }
+        public string Role { get; set; }
     }
 }

@@ -37,11 +37,14 @@ namespace ASM_Tools.Controllers
             var Results = from t in db.Tools
                           select new
                           {
-                              t.ToolID,
-                              t.Title,
+                              tool = t,
                               Checked = ((from te in db.ToolToEmployees
                                           where (te.EmployeeID == id) & (te.ToolID == t.ToolID)
-                                          select te).Count() > 0)
+                                          select te).Count() > 0),
+                              Role = ((from te in db.ToolToEmployees
+                                          where (te.EmployeeID == id) & (te.ToolID == t.ToolID)
+                                          select te.Role).FirstOrDefault())
+
                           };
 
             var MyViewmodel = new EmployeeViewModel();
@@ -52,7 +55,7 @@ namespace ASM_Tools.Controllers
 
             foreach (var item in Results)
             {
-                MyCheckBoxList.Add(new CheckBoxEmployeeViewModel { Id = item.ToolID, ToolName = item.Title, Checked = item.Checked });
+                MyCheckBoxList.Add(new CheckBoxEmployeeViewModel { tool = item.tool, Checked = item.Checked, Role = item.Role });
             }
 
             MyViewmodel.Tools = MyCheckBoxList;
@@ -60,6 +63,19 @@ namespace ASM_Tools.Controllers
             return View(MyViewmodel);
 
 
+        }
+
+        public JsonResult IsEmployeeIDExist(int ID)
+        {
+            var validateID = db.Employees.FirstOrDefault(x => x.ID == ID);
+            if (validateID != null)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
         }
 
         // GET: EditorEmployee/Create
@@ -73,10 +89,10 @@ namespace ASM_Tools.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,LastName,FirstMidName,salutation,JoinedDate,JobTitle,Department,CompanyEmail,ResumePath,DisplayPhotoPath,team,DisplayPhotoFile,ResumeFile")] Employee employee)
+        public ActionResult Create([Bind(Include = "ID,LastName,FirstMidName,salutation,JoinedDate,JobTitle,Department,CompanyEmail,ResumePath,DisplayPhotoPath,team,DisplayPhotoFile,ResumeFile,EmployeeNumber")] Employee employee)
         {
 
-            string root = Server.MapPath("~/Assets/Employees/" + employee.LastName); // ~/Assets/products/software1
+            string root = Server.MapPath("~/Assets/Employees/" + employee.ID); // ~/Assets/products/software1
             string PhotoFolder = root + "\\photo folder";
             string ResumeFolder = root + "\\resume";
 
@@ -88,8 +104,8 @@ namespace ASM_Tools.Controllers
                 string imageExtension = Path.GetExtension(employee.DisplayPhotoFile.FileName);  //.jpg
                 PhotoFullName = imageName + imageExtension;  //image.jpg
 
-                employee.DisplayPhotoPath = "~/Assets/Employees/" + employee.LastName + "/photo folder/" + PhotoFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-                PhotoFullName = Path.Combine(Server.MapPath("~/Assets/Employees/" + employee.LastName + "/photo folder/" + PhotoFullName));
+                employee.DisplayPhotoPath = "~/Assets/Employees/" + employee.ID + "/photo folder/" + PhotoFullName;  //  ~/Assets/products/software1/cover image/image.jpg
+                PhotoFullName = Path.Combine(Server.MapPath("~/Assets/Employees/" + employee.ID + "/photo folder/" + PhotoFullName));
             }
 
             string ResumeFullName = "";
@@ -101,8 +117,8 @@ namespace ASM_Tools.Controllers
                 string resumeExtension = Path.GetExtension(employee.ResumeFile.FileName);  //.jpg
                 ResumeFullName = resumeName + resumeExtension;  //image.jpg
 
-                employee.ResumePath = "~/Assets/Employees/" + employee.LastName + "/resume/" + ResumeFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-                ResumeFullName = Path.Combine(Server.MapPath("~/Assets/Employees/" + employee.LastName + "/resume/" + ResumeFullName));
+                employee.ResumePath = "~/Assets/Employees/" + employee.ID + "/resume/" + ResumeFullName;  //  ~/Assets/products/software1/cover image/image.jpg
+                ResumeFullName = Path.Combine(Server.MapPath("~/Assets/Employees/" + employee.ID + "/resume/" + ResumeFullName));
             }
 
 
@@ -150,11 +166,13 @@ namespace ASM_Tools.Controllers
             var Results = from t in db.Tools
                           select new
                           {
-                              t.ToolID,
-                              t.Title,
+                              tool = t,
                               Checked = ((from te in db.ToolToEmployees
                                           where (te.EmployeeID == id) & (te.ToolID == t.ToolID)
-                                          select te).Count() > 0)
+                                          select te).Count() > 0),
+                              Role = ((from te in db.ToolToEmployees
+                                       where (te.EmployeeID == id) & (te.ToolID == t.ToolID)
+                                       select te.Role).FirstOrDefault())
                           };
 
             var MyViewmodel = new EmployeeViewModel();
@@ -165,7 +183,7 @@ namespace ASM_Tools.Controllers
 
             foreach (var item in Results)
             {
-                MyCheckBoxList.Add(new CheckBoxEmployeeViewModel { Id = item.ToolID, ToolName = item.Title, Checked = item.Checked });
+                MyCheckBoxList.Add(new CheckBoxEmployeeViewModel { tool = item.tool, Checked = item.Checked, Role = item.Role});
             }
 
             MyViewmodel.Tools = MyCheckBoxList;
@@ -174,96 +192,6 @@ namespace ASM_Tools.Controllers
 
 
         }
-
-        //Test edit
-        //public ActionResult Yap(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Employee employee = db.Employees.Find(id);
-        //    if (employee == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-
-        //    var Results = from t in db.Tools
-        //                  select new
-        //                  {
-        //                      t.ToolID,
-        //                      t.Title,
-        //                      Checked = ((from te in db.ToolToEmployees
-        //                                  where (te.EmployeeID == id) & (te.ToolID == t.ToolID)
-        //                                  select te).Count() > 0)
-        //                  };
-
-        //    var MyViewmodel = new EmployeeViewModel();
-
-        //    MyViewmodel.employee = employee;
-
-        //    var MyCheckBoxList = new List<CheckBoxViewModel>();
-
-        //    foreach (var item in Results)
-        //    {
-        //        MyCheckBoxList.Add(new CheckBoxViewModel { Id = item.ToolID, ToolName = item.Title, Checked = item.Checked });
-        //    }
-
-        //    MyViewmodel.Tools = MyCheckBoxList;
-
-        //    return View(MyViewmodel);
-
-        //}
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Yap(EmployeeViewModel employeeView)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var MyEmployee = db.Employees.Find(employeeView.employee.ID);
-
-
-
-        //        foreach(var item in db.ToolToEmployees)
-        //        {
-        //            if(item.ID == employeeView.employee.ID)
-        //            {
-        //                db.Entry(item).State = EntityState.Deleted;
-        //            }
-        //        }
-
-        //        foreach(var item in employeeView.Tools)
-        //        {
-        //            if (item.Checked)
-        //            {
-        //                var tee = from te in db.ToolToEmployees
-        //                          where te.EmployeeID == employeeView.employee.ID && te.ToolID == item.Id
-        //                          select te;
-        //                if(tee.Count() == 0)
-        //                {
-        //                    db.ToolToEmployees.Add(new ToolToEmployee() { EmployeeID = employeeView.employee.ID, ToolID = item.Id });
-        //                }
-        //            } else
-        //            {
-        //                var tee = from te in db.ToolToEmployees
-        //                          where te.EmployeeID == employeeView.employee.ID && te.ToolID == item.Id
-        //                          select te;
-        //                if(tee.Count() != 0)
-        //                {
-        //                    db.ToolToEmployees.Remove(tee.First());
-        //                }
-        //            }
-        //        }
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(employeeView);
-        //}
-
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -283,8 +211,8 @@ namespace ASM_Tools.Controllers
 
                     string oldPhoto = Request.MapPath(TempData["DisplayPhotoPath"].ToString());
 
-                    MyEmployee.DisplayPhotoPath = "~/Assets/Employees/" + employeeView.employee.LastName + "/photo folder/" + PhotoFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-                    PhotoFullName = Path.Combine(Server.MapPath("~/Assets/Employees/" + employeeView.employee.LastName + "/photo folder/" + PhotoFullName));
+                    MyEmployee.DisplayPhotoPath = "~/Assets/Employees/" + employeeView.employee.ID + "/photo folder/" + PhotoFullName;  //  ~/Assets/products/software1/cover image/image.jpg
+                    PhotoFullName = Path.Combine(Server.MapPath("~/Assets/Employees/" + employeeView.employee.ID + "/photo folder/" + PhotoFullName));
 
                     //Delete old cover image
                     if (System.IO.File.Exists(oldPhoto))
@@ -297,7 +225,7 @@ namespace ASM_Tools.Controllers
                     MyEmployee.DisplayPhotoFile.SaveAs(PhotoFullName);
 
                 }
-                //if no file chose keep the original
+                //if no file chosen keep the original
                 else
                 {
                     if(MyEmployee.DisplayPhotoPath != null)
@@ -315,8 +243,8 @@ namespace ASM_Tools.Controllers
 
                     string oldResume = Request.MapPath(TempData["ResumePath"].ToString());
 
-                    MyEmployee.ResumePath = "~/Assets/Employees/" + employeeView.employee.LastName + "/resume folder/" + ResumeFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-                    ResumeFullName = Path.Combine(Server.MapPath("~/Assets/Employees/" + employeeView.employee.LastName + "/resume folder/" + ResumeFullName));
+                    MyEmployee.ResumePath = "~/Assets/Employees/" + employeeView.employee.ID + "/resume folder/" + ResumeFullName;  //  ~/Assets/products/software1/cover image/image.jpg
+                    ResumeFullName = Path.Combine(Server.MapPath("~/Assets/Employees/" + employeeView.employee.ID + "/resume folder/" + ResumeFullName));
 
                     //Delete old cover image
                     if (System.IO.File.Exists(oldResume))
@@ -350,18 +278,23 @@ namespace ASM_Tools.Controllers
                 {
                     if (item.Checked)
                     {
+                        var role = item.Role;
                         var tee = from te in db.ToolToEmployees
-                                  where te.EmployeeID == employeeView.employee.ID && te.ToolID == item.Id
+                                  where te.EmployeeID == employeeView.employee.ID && te.ToolID == item.tool.ToolID
                                   select te;
                         if (tee.Count() == 0)
                         {
-                            db.ToolToEmployees.Add(new ToolToEmployee() { EmployeeID = employeeView.employee.ID, ToolID = item.Id });
+                            db.ToolToEmployees.Add(new ToolToEmployee() { EmployeeID = employeeView.employee.ID, ToolID = item.tool.ToolID, Role = item.Role });
+                        }
+                        else
+                        {
+                            tee.First().Role = role;
                         }
                     }
                     else
                     {
                         var tee = from te in db.ToolToEmployees
-                                  where te.EmployeeID == employeeView.employee.ID && te.ToolID == item.Id
+                                  where te.EmployeeID == employeeView.employee.ID && te.ToolID == item.tool.ToolID
                                   select te;
                         if (tee.Count() != 0)
                         {
@@ -389,25 +322,6 @@ namespace ASM_Tools.Controllers
         }
 
 
-
-        // POST: EditorEmployee/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "ID,LastName,FirstMidName,salutation,JoinedDate,JobTitle,Department,CompanyEmail,ResumePath,DisplayPhotoPath,team")] Employee employee)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(employee).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(employee);
-        //}
-
-
-
         // GET: EditorEmployee/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -429,7 +343,7 @@ namespace ASM_Tools.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Employee employee = db.Employees.Find(id);
-            string fullPath = Server.MapPath("~/Assets/Employees/" + employee.LastName);
+            string fullPath = Server.MapPath("~/Assets/Employees/" + employee.ID);
             if (Directory.Exists(fullPath))
             {
                 Directory.Delete(fullPath, true);

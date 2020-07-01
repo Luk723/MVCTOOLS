@@ -85,4 +85,7 @@ C:\Users\Adoca\source\repos\ASM_Tools\ASM_Tools\obj\Debug\ASM_Tools.Migrations.I
 C:\Users\Adoca\source\repos\ASM_Tools\ASM_Tools\obj\Debug\ASM_Tools.csproj.GenerateResource.cache
 C:\Users\Adoca\source\repos\ASM_Tools\ASM_Tools\obj\Debug\ASM_Tools.Migrations.InitialCreate1.resources
 C:\Users\Adoca\source\repos\ASM_Tools\ASM_Tools\obj\Debug\ASM_Tools.Migrations.InitialCreate2.resources
-C:\Users\Adoca\source\repos\ASM_Tools\ASM_Tools\obj\Debug\ASM_Tools.Migrations.update.resources
+C:\Users\Adoca\source\repos\ASM_Tools\ASM_Tools\bin\PagedList.dll
+C:\Users\Adoca\source\repos\ASM_Tools\ASM_Tools\bin\PagedList.Mvc.dll
+C:\Users\Adoca\source\repos\ASM_Tools\ASM_Tools\bin\PagedList.xml
+C:\Users\Adoca\source\repos\ASM_Tools\ASM_Tools\bin\PagedList.Mvc.xml

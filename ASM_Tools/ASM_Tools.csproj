@@ -53,6 +53,12 @@
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -149,10 +155,6 @@
     <Compile Include="Migrations\202006230805235_InitialCreate2.designer.cs">
       <DependentUpon>202006230805235_InitialCreate2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202006240717272_update.cs" />
-    <Compile Include="Migrations\202006240717272_update.designer.cs">
-      <DependentUpon>202006240717272_update.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Carousel.cs" />
     <Compile Include="Models\CheckBoxEmployeeViewModel.cs" />
@@ -166,7 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-simplex.css" />
-    <Content Include="Content\jquery.orgchart.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -180,7 +182,6 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.orgchart.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -228,6 +229,9 @@
     <Content Include="Views\EditorEmployee\Details.cshtml" />
     <Content Include="Views\EditorEmployee\Edit.cshtml" />
     <Content Include="Views\EditorEmployee\Index.cshtml" />
+    <Content Include="Views\EditorTool\EmployeeEditor.cshtml" />
+    <Content Include="Views\EditorEmployee\ToolEditor.cshtml" />
+    <Content Include="Views\EditorEmployee\ToolDetailModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -254,9 +258,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006230805235_InitialCreate2.resx">
       <DependentUpon>202006230805235_InitialCreate2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202006240717272_update.resx">
-      <DependentUpon>202006240717272_update.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
