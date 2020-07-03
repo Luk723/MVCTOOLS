@@ -26,7 +26,8 @@ namespace ASM_Tools.Models
 
         public Salutation salutation { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime JoinedDate { get; set; }
 
         [DisplayName("Job Title")]

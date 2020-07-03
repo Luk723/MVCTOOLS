@@ -29,6 +29,42 @@ namespace ASM_Tools.Controllers
             return View(Tools.ToList());
         }
 
+        public ActionResult GetEmployees(int id)
+        {
+            
+            Tool tool = db.Tools.Find(id);
+
+            var Results = from e in db.Employees
+                          select new
+                          {
+                              //e.ID,
+                              //e.FirstMidName,
+                              //e.LastName,
+                              employee = e,
+                              Checked = ((from te in db.ToolToEmployees
+                                          where (te.ToolID == id) & (te.EmployeeID == e.ID)
+                                          select te).Count() > 0),
+                              Role = ((from te in db.ToolToEmployees
+                                       where (te.ToolID == id) & (te.EmployeeID == e.ID)
+                                       select te.Role).FirstOrDefault())
+                          };
+
+            var MyViewmodel = new ToolViewModel();
+
+            MyViewmodel.tool = tool;
+
+            var MyCheckBoxList = new List<CheckBoxToolViewModel>();
+
+            foreach (var item in Results)
+            {
+                MyCheckBoxList.Add(new CheckBoxToolViewModel { Employee = item.employee, Checked = item.Checked, Role = item.Role });
+            }
+
+            MyViewmodel.Employees = MyCheckBoxList;
+
+            return PartialView("PeekEmployees", MyViewmodel);
+        }
+
         // GET: Editor/Details/5
         public ActionResult Details(int? id)
         {
@@ -87,45 +123,7 @@ namespace ASM_Tools.Controllers
             coverFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.ToolID + "/cover folder/" + coverFullName));
 
 
-            //documentation 
-            //string documentationFullName = "";
-            //if(tool.DocumentationFiles != null)
-            //{
-            //    string documentation = Path.GetFileNameWithoutExtension(tool.DocumentationFiles.FileName);  //documentation
-            //    string documentationExtension = Path.GetExtension(tool.DocumentationFiles.FileName);  //.pdf
-            //    documentationFullName = documentation + documentationExtension;  //documentation.pdf
-
-            //    tool.DocumentationPath = "~/Assets/Tools/" + tool.Title + "/documentation/" + documentationFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-            //    documentationFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.Title + "/documentation/" + documentationFullName));
-            //}
-
-
-            //installation 
-            //string installationFullName = "";
-            //if(tool.InstallationFiles != null)
-            //{
-            //    string installation = Path.GetFileNameWithoutExtension(tool.InstallationFiles.FileName);  //installation
-            //    string installationExtension = Path.GetExtension(tool.InstallationFiles.FileName);  //.exe
-            //    installationFullName = installation + installationExtension;  //installation.exe
-
-            //    tool.InstallationPath = "~/Assets/Tools/" + tool.Title + "/installation/" + installationFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-            //    installationFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.Title + "/installation/" + installationFullName));
-            //}
-
-
-            //video
-            //string videoFullName = "";
-            //if(tool.VideoFile != null)
-            //{
-            //    string video = Path.GetFileNameWithoutExtension(tool.VideoFile.FileName);  //video
-            //    string videoExtension = Path.GetExtension(tool.VideoFile.FileName);  //.mp4
-            //    videoFullName = video + videoExtension;  //video.mp4
-
-            //    tool.VideoPath = "~/Assets/Tools/" + tool.Title + "/video/" + videoFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-            //    videoFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.Title + "/video/" + videoFullName));
-
-            //}
-
+            
             
             tool.GalleryPath = "~/Assets/Tools/" + tool.ToolID + "/gallery/";  //  ~/Assets/products/software1/gallery/
             tool.DocumentationPath = "~/Assets/Tools/" + tool.ToolID + "/documentation/";
@@ -507,9 +505,27 @@ namespace ASM_Tools.Controllers
                 }
                 return PartialView("DocumentationEditor", tool);
             }
+            else if (type.Equals("installation", StringComparison.InvariantCultureIgnoreCase))
+            {
+                string path = Server.MapPath(tool.InstallationPath);
+                HttpFileCollectionBase files = Request.Files;
+                for (int i = 0; i < files.Count; i++)
+                {
+                    HttpPostedFileBase file = files[i];
+                    file.SaveAs(path + file.FileName);
+                }
+                return PartialView("InstallationEditor", tool);
+            }
             else
             {
-                return PartialView("GalleryEditor", tool);
+                string path = Server.MapPath(tool.VideoPath);
+                HttpFileCollectionBase files = Request.Files;
+                for (int i = 0; i < files.Count; i++)
+                {
+                    HttpPostedFileBase file = files[i];
+                    file.SaveAs(path + file.FileName);
+                }
+                return PartialView("VideoEditor", tool);
             }
 
         }    
@@ -537,9 +553,13 @@ namespace ASM_Tools.Controllers
             {
                 return PartialView("DocumentationEditor", tool);
             }
+            else if (type.Equals("installation", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return PartialView("InstallationEditor", tool);
+            }
             else
             {
-                return PartialView("GalleryEditor", tool);
+                return PartialView("VideoEditor", tool);
             }
         }
 

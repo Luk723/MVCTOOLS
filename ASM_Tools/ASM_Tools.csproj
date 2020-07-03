@@ -232,6 +232,13 @@
     <Content Include="Views\EditorTool\EmployeeEditor.cshtml" />
     <Content Include="Views\EditorEmployee\ToolEditor.cshtml" />
     <Content Include="Views\EditorEmployee\ToolDetailModal.cshtml" />
+    <Content Include="Views\EditorTool\InstallationEditor.cshtml" />
+    <Content Include="Views\EditorTool\VideoEditor.cshtml" />
+    <Content Include="Views\Tools\ToolList.cshtml" />
+    <Content Include="Views\Employees\EmployeeList.cshtml" />
+    <Content Include="Views\EditorTool\ToolList.cshtml" />
+    <Content Include="Views\EditorEmployee\EmployeeList.cshtml" />
+    <Content Include="Views\EditorTool\PeekEmployees.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

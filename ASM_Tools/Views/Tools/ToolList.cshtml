@@ -1,0 +1,124 @@
+﻿@model IEnumerable<ASM_Tools.Models.Tool>
+
+<div class="album py-5 bg-light">
+    <div class="container">
+
+        <div class="row">
+
+
+
+            @foreach (var item in Model)
+            {
+
+                <div class="col-md-4 col-sm-6 col-xs-12 Search">
+                    <div class="panel mb-4 box-shadow">
+                        <img class="panel-heading" src="@Url.Content(item.CoverImagePath)" style='height: 100%;width: 100%;object-fit: contain;max-height: 20em;min-height:20em;'>
+                        <div class="panel-body" style="">
+                            <h3 class="Title">@item.Title</h3>
+                            <p class="panel-text">@item.Description</p>
+                            <div class="d-flex justify-content-between" style="text-align:right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("View", "Details", new { id = item.ToolID })</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-target="#modalPopUp" data-toggle="modal">More</button>
+
+
+                                    <div class="modal" id="modalPopUp" ;">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title">@item.Title</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img class="panel-heading" src="@Url.Content(item.CoverImagePath)" style='height: 100%; width: 100%; object-fit: contain'>
+                                                    <div style="text-align:center">
+                                                        <h4 >@item.Title</h4>
+                                                        <hr />
+                                                        <p>
+
+                                                            @*All content rendered is from the first item.*@
+                                                            @*need to make it render the correct content*@
+
+                                                            @item.Description
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <small class="text-muted">@item.ToolID</small>
+                            </div>
+                            <span class="label label-primary">@item.team.ToString()</span>
+                            <span class="label label-info">@item.Tag</span>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1) {
+                return true;
+            }
+        }
+
+
+        $("#DropDownList1").change(function () {
+            @*console.log($(this).val())*@
+            var searchTeam = $("#DropDownList1").val();
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+                if (!Contains($(this).find(".Team").text(), searchTeam) || !Contains($(this).find(".Title").text().toLowerCase(), searchText)) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            })
+
+        })
+
+        $("#Search").keyup(function () {
+            var searchText = $("#Search").val().toLowerCase();
+            var searchTeam = $("#DropDownList1").val();
+            $(".Search").each(function () {
+                if (searchTeam != "All") {
+                    if (!Contains($(this).find(".Title").text().toLowerCase(), searchText) || !Contains($(this).find(".Team").text(), searchTeam)) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+                }
+                else {
+                    if (!Contains($(this).find(".Title").text().toLowerCase(), searchText)) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+                }
+            })
+        })
+
+    })
+</script>

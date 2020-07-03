@@ -1,0 +1,9 @@
+﻿@model ASM_Tools.Models.ToolViewModel
+
+
+<div>
+    @foreach(var item in Model.Employees)
+    {
+        <h2>@item.Employee.FirstMidName</h2>
+    }
+</div>

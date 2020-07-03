@@ -1,0 +1,109 @@
+﻿@model ASM_Tools.Models.Tool
+
+@{
+    @*loop through the files in the root folder*@
+
+    var list = Directory.EnumerateFiles(Server.MapPath(@Model.VideoPath))
+                          .Select(fn => @Model.VideoPath + Path.GetFileName(fn));
+}
+
+<div class="form-group">
+    @Html.LabelFor(model => model.VideoPath, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div class="col-md-10">
+
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            File Name
+        </th>
+        <th>
+            File Type
+        </th>
+        <th>
+            File Size
+        </th>
+        <th>
+            File Preview
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+    @foreach (var file in list)
+    {
+
+        long fileSize = new System.IO.FileInfo(Server.MapPath(file)).Length;
+        string ext = new System.IO.FileInfo(Server.MapPath(file)).Extension;
+
+        <tr>
+            <td>
+                @*@Html.ActionLink("Download cover", "DownloadFile", "Tools", new { FileName = file }, null)*@
+                @file
+            </td>
+            <td>
+                @ext
+            </td>
+            <td>
+                @(fileSize/1048576) Mb
+            </td>
+            <td>
+                <a href="@Url.Action("GetPreview", "EditorTool", new { FileName = file})" target="_blank">Preview</a>
+            </td>
+            <td>
+                <button class="btn-warning deleteVideo" id="deleteVideo" data-id="@file"> Remove </button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    function GetPreview(ext) {
+
+        window.open('/EditorTool/GetPreview?FileName=' + ext, "_blank");
+    };
+
+
+    @*var ID = @Html.Raw(Model.ToolID);*@
+    $(".deleteVideo").click(function (event) {
+        @*event.preventDefault();*@
+
+        console.log('working');
+
+        var path = $(this).attr("data-id");
+        var type = 'video';
+        var fileData = new FormData();
+
+        fileData.append('path', path)
+        fileData.append('id', ID);
+        fileData.append('type', type);
+
+        @*console.log(path);
+        console.log(Array.from(fileData));*@
+
+        $.ajax({
+            type: "POST",
+            url: "/EditorTool/DeleteFile",
+            @* dataType: "html",*@
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            data: fileData,
+            success: function (data) {
+                $("#videoRender").html(data);
+            },
+            error: function (xhr, status, error) {
+                alert(status);
+            }
+        });
+
+    });
+
+</script>

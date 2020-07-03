@@ -1,0 +1,105 @@
+﻿@model IEnumerable<ASM_Tools.Models.Employee>
+
+
+    <div class="container">
+        <div class="row">
+            <div>
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4 Search">
+                        <div class="panel">
+
+                            <div class="card-container">
+                                <span class="pro Team">@item.team</span>
+                                <div class="panel-body">
+                                    <img class="round" src="@Url.Content(item.DisplayPhotoPath)" alt="user" />
+                                    <div style="margin: 20px 0px;">
+                                        <h3 class="Name">@item.FirstMidName @item.LastName</h3>
+                                        <span class="label label-info" style="font-size: 1em;">@item.Department</span>
+                                    </div>
+                                    <p>User interface designer and <br /> front-end developer</p>
+                                    <div class="buttons">
+                                        @Html.ActionLink("View", "Details", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+
+                                        @*<button class="primary">
+                                            View
+                                        </button>
+                                        <button class="primary ghost">
+                                            Following
+                                        </button>*@
+                                    </div>
+                                </div>
+                                <div class="skills">
+                                    <h6>Skills</h6>
+                                    <ul>
+                                        <li>UI / UX</li>
+                                        <li>Front End Development</li>
+                                        <li>HTML</li>
+                                        <li>CSS</li>
+                                        <li>JavaScript</li>
+                                        <li>React</li>
+                                        <li>Node</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1) {
+                return true;
+            }
+        }
+
+
+        $("#DropDownList1").change(function () {
+            @* console.log($(this).val()) *@
+            var searchTeam = $("#DropDownList1").val();
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+                if (!Contains($(this).find(".Team").text(), searchTeam) || !Contains($(this).find(".Name").text().toLowerCase(), searchText)) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            })
+
+        })
+
+        $("#Search").keyup(function () {
+            var searchText = $("#Search").val().toLowerCase();
+            var searchTeam = $("#DropDownList1").val();
+            $(".Search").each(function () {
+                if (searchTeam != "All") {
+                    if (!Contains($(this).find(".Name").text().toLowerCase(), searchText) || !Contains($(this).find(".Team").text(), searchTeam)) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+                }
+                else {
+                    if (!Contains($(this).find(".Name").text().toLowerCase(), searchText)) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+                }
+            })
+        })
+
+    })
+</script>
