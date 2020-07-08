@@ -1,8 +1,11 @@
 ﻿@model IEnumerable<ASM_Tools.Models.Employee>
 
 
-<div class="container">
+
+
+<div class="container-fluid">
     <div class="row">
+        <a href="~/Views/EditorTool/VideoEditor.cshtml">~/Views/EditorTool/VideoEditor.cshtml</a>
         <div>
             @foreach (var item in Model)
             {
@@ -17,10 +20,10 @@
                                     <h3 class="Name">@item.FirstMidName @item.LastName</h3>
                                     <span class="label label-info" style="font-size: 1em;">@item.Department</span>
                                 </div>
-                                <p>User interface designer and <br /> front-end developer</p>
+                                <h4>@item.JobTitle</h4>
                                 <div class="btn-group btn-group-justified">
-                                  @Html.ActionLink("Edit", "Edit", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
-                                  @Html.ActionLink("Delete", "Delete", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-warning", @role = "button" })
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-warning", @role = "button" })
                                 </div>
                             </div>
                             <div class="skills">
@@ -97,3 +100,7 @@
 
     })
 </script>
+
+<style>
+    
+</style>

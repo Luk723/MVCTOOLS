@@ -9,23 +9,23 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<div class="input-group">
-    <span><input type="text" id="Search" placeholder="Search Title" class="form-control" /></span>
-    <span>
-        <select id="DropDownList1" Height="72px" Width="184px">
-            <option Value="">All</option>
-            <option Value="ATS">ATS</option>
-            <option Value="ATW">ATW</option>
-            <option Value="ATHK">ATHK</option>
-            <option value="COC">COC</option>
-        </select>
-    </span>
-</div>
 
 <main role="main">
 
+    <div class="input-group">
+        <span><input type="text" id="Search" placeholder="Search Title" class="form-control" /></span>
+        <span>
+            <select id="DropDownList1" Height="72px" Width="184px">
+                <option Value="">All</option>
+                <option Value="ATS">ATS</option>
+                <option Value="ATW">ATW</option>
+                <option Value="ATHK">ATHK</option>
+                <option value="COC">COC</option>
+            </select>
+        </span>
+    </div>
     <section class="jumbotron text-center">
-        <div class="container">
+        <div class="container-fluid">
             <h1 class="jumbotron-heading">Product Showcase</h1>
             <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
             <p>
@@ -37,96 +37,10 @@
 
     @Html.Partial("EmployeeList", Model)
 
-    @*<div class="album py-5 bg-light">
-        <div class="container">
-
-            <div class="row">
-
-                @foreach (var item in Model)
-                {
-
-                    <div class="col-md-4">
-                        <div class="panel mb-4 box-shadow">
-                            <img class="panel-heading" src="@Url.Content(item.DisplayPhotoPath)" style='height: 100%;width: 100%;object-fit: contain;max-height: 20em;min-height:20em;'>
-                            <div class="panel-body" style="">
-                                <h3>@item.LastName</h3>
-                                <p class="panel-text">@item.JobTitle</p>
-                                <div class="d-flex justify-content-between" style="text-align:right">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("View", "Details", new { id = item.ID })</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("Edit", "Edit", new { id = item.ID })</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("Delete", "Delete", new { id = item.ID })</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-target="#modalPopUp" data-toggle="modal">More</button>*@
-
-
-                                        <!--<div class="modal" id="modalPopUp" ;">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-                                                        @*<h4 class="modal-title">@item.LastName</h4>*@
-                                                    <!--</div>
-                                                    <div class="modal-body">-->
-                                                        @*<img class="panel-heading" src="@Url.Content(item.CoverImagePath)" style='height: 100%; width: 100%; object-fit: contain'>*@
-                                                        <!--<div style="text-align:center">-->
-                                                            @*<h4>@item.Title</h4>*@
-                                                            <!--<hr />
-                                                            <p>-->
-
-                                                                @*All content rendered is from the first item.*@
-                                                                @*need to make it render the correct content*@
-
-                                                                @*@item.Description*@
-                                                            <!--</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>-->
-
-
-
-                                    @*</div>
-                                    <small class="text-muted">9 mins</small>
-                                </div>
-                                <span class="label label-info">@item.team</span>
-
-                            </div>
-                        </div>
-                    </div>
-
-                }
-
-
-            </div>
-        </div>
-    </div>*@
-
-    @*<div>
-        <div class="row">
-
-            @foreach (var item in Model)
-            {
-                <div class="col-md-4">
-                    <div class="thumbnail">
-
-                        <img src="@Url.Content(item.CoverImagePath)" alt="Lights" style="width:100%">
-                    </div>
-                    <div class="caption">
-                        <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
-                    </div>
-
-                </div>
-            }
-
-        </div>
-    </div>*@
+    
 </main>
+
+
 
 
 <style>
@@ -147,6 +61,7 @@
             max-height: 150px;
             padding: 70px;
         }
+
 
     * {
         box-sizing: border-box;
@@ -212,6 +127,11 @@
             border-radius: 50%;
             padding: 7px;
             max-height: 230px;
+            max-width:230px;
+        }
+        img{
+            border-radius:50%;
+            overflow:hidden;
         }
 
     button.primary {

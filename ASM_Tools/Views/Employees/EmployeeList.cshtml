@@ -17,7 +17,7 @@
                                         <h3 class="Name">@item.FirstMidName @item.LastName</h3>
                                         <span class="label label-info" style="font-size: 1em;">@item.Department</span>
                                     </div>
-                                    <p>User interface designer and <br /> front-end developer</p>
+                                    <h4>@item.JobTitle</h4>
                                     <div class="buttons">
                                         @Html.ActionLink("View", "Details", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
 
