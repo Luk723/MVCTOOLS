@@ -11,7 +11,7 @@
 </p>
 
 
-<div class="container" style="margin-bottom:30px">
+<div class="container-fluid" style="margin-bottom:30px">
     <div style=" text-align: center">
         <img src="@Url.Content(Model.tool.CoverImagePath)" style="max-width:80%;height:auto;" />
     </div>
@@ -86,7 +86,7 @@
 
 
 
-<div class="container">
+<div class="container-fluid">
 
  
     <div style="margin-bottom:70px">
@@ -106,9 +106,6 @@
             <li><a data-toggle="tab" href="#thirdTab">Videos</a></li>
         </ul>
         <div class="tab-content">
-            @*<div id="firstTab" class="tab-pane fade in active">
-            </div>*@
-
             <div id="firstTab" class="tab-pane fade in">
                 <h3>Download Documentation and user guide</h3>
                 <table class="table">
@@ -124,11 +121,8 @@
                         </th>
                     </tr>
                     @{
-                        @*loop through the files in the root folder*@
-
-                    var documentationlist = Directory.EnumerateFiles(Server.MapPath(@Model.tool.DocumentationPath))
-                                          .Select(fn => @Model.tool.DocumentationPath + Path.GetFileName(fn));
-
+                        var documentationlist = Directory.EnumerateFiles(Server.MapPath(@Model.tool.DocumentationPath))
+                                              .Select(fn => @Model.tool.DocumentationPath + Path.GetFileName(fn));
                     }
 
                     @foreach (var file in documentationlist)
@@ -147,16 +141,25 @@
                             </td>
                         </tr>
                     }
-
                 </table>
             </div>
 
-            @*<div id="thirdTab" class="tab-pane fade in">
-                <h3>Download user guide</h3>
-            </div>*@
-
             <div id="secondTab" class="tab-pane fade in">
                 <h3>Download now</h3>
+                <table class="table">
+                    <tr>
+                        <th>
+                            File Name
+                        </th>
+                        <th>
+                            File Type
+                        </th>
+                        <th>
+                            File Size
+                        </th>
+                    </tr>
+
+                </table>
             </div>
 
             <div id="thirdTab" class="tab-pane fade in">
@@ -167,14 +170,13 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container-fluid">
     <div style="text-align:center"> <h2>Production Team</h2></div>
 
     @foreach (var item in Model.Employees)
     {
         if (item.Checked)
         {
-            
                     <div class="col-md-4">
                         <div class="panel">
 

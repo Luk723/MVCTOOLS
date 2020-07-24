@@ -1,0 +1,71 @@
+﻿
+
+<h1 style="display:inline;">CoC</h1>
+<img src="~/Image/CoC.png" />
+<h3>Focus Area:</h3>
+<ul>
+    <li>Tap on Europe Software Development Practice</li>
+    <li>External projects with Netherland's professionals and universities</li>
+    <li>POC development through University Interns</li>
+    <li>Connect to Europe practice for better insight</li>
+    <li>Vision and Mechatronic development</li>
+</ul>
+
+<h3>Personnel Structure:</h3>
+<div id="empChart">
+</div>
+
+<input id="Show Chart" type="button" value="Show Chart" onclick="drawEmpChart();" />
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+
+    google.load("visualization", "1", { packages: ["orgchart"] });
+
+    $('#btnLoadChart').click(function () {
+        drawEmpChart();
+    });
+
+    function drawEmpChart() {
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetEmpChartData",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (empData) {
+
+                var chartData = new google.visualization.DataTable();
+
+                chartData.addColumn('string', 'Name');
+                chartData.addColumn('string', 'Manager');
+                chartData.addColumn('string', 'ToolTip');
+
+                $.each(empData, function (index, row) {
+                    var reportID = row.ReportID.toString() == "0" ? '' : row.ReportID.toString();
+
+                    chartData.addRows([[{
+                        v: row.Id.toString(),
+                        f: row.FirstName + '<div>(<span>' + row.Designation + '</span>)</div><img height="50px" width="50px" src = "/Photos/' + row.FirstName.toString() + '.png" />'
+                    }, reportID, row.Designation]]);
+                });
+
+                var chart = new google.visualization.OrgChart($("#empChart")[0]);
+                chart.draw(chartData, { allowHtml: true });
+            },
+            failure: function (xhr, status, error) {
+                alert("Failure: " + xhr.responseText);
+            },
+            error: function (xhr, status, error) {
+                alert("Error: " + xhr.responseText);
+            }
+        });
+    }
+</script>
+
+<a href="@Url.Action("SWCentres","Home")">
+    Back
+</a>

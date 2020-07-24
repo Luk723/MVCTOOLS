@@ -1,17 +1,12 @@
 ﻿@model IEnumerable<ASM_Tools.Models.Employee>
 
-
-
-
 <div class="container-fluid">
     <div class="row">
-        <a href="~/Views/EditorTool/VideoEditor.cshtml">~/Views/EditorTool/VideoEditor.cshtml</a>
         <div>
             @foreach (var item in Model)
             {
                 <div class="col-md-4 Search">
                     <div class="panel">
-
                         <div class="card-container">
                             <span class="pro Team">@item.team</span>
                             <div class="panel-body">
@@ -20,10 +15,12 @@
                                     <h3 class="Name">@item.FirstMidName @item.LastName</h3>
                                     <span class="label label-info" style="font-size: 1em;">@item.Department</span>
                                 </div>
-                                <h4>@item.JobTitle</h4>
+                                <div style="margin-bottom: 20px">
+                                    <span class="label label-primary" style="font-size: 1em;">@item.JobTitle</span>
+                                </div>
                                 <div class="btn-group btn-group-justified">
                                     @Html.ActionLink("Edit", "Edit", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-warning", @role = "button" })
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
                                 </div>
                             </div>
                             <div class="skills">
@@ -39,12 +36,9 @@
                                 </ul>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             }
-
         </div>
     </div>
 </div>

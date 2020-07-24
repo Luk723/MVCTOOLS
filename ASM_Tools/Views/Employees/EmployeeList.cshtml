@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<ASM_Tools.Models.Employee>
 
+<div class="album py-5 bg-light">
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div>
                 @foreach (var item in Model)
@@ -17,16 +18,11 @@
                                         <h3 class="Name">@item.FirstMidName @item.LastName</h3>
                                         <span class="label label-info" style="font-size: 1em;">@item.Department</span>
                                     </div>
-                                    <h4>@item.JobTitle</h4>
+                                    <div style="margin-bottom: 20px;">
+                                        <span class="label label-primary" style="font-size: 1em;">@item.JobTitle</span>
+                                    </div>
                                     <div class="buttons">
-                                        @Html.ActionLink("View", "Details", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
-
-                                        @*<button class="primary">
-                                            View
-                                        </button>
-                                        <button class="primary ghost">
-                                            Following
-                                        </button>*@
+                                        @Html.ActionLink("View Profile", "Details", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
                                     </div>
                                 </div>
                                 <div class="skills">
@@ -42,15 +38,13 @@
                                     </ul>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 }
-
             </div>
         </div>
     </div>
+</div>
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 

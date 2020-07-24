@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ASM_Tools.Models.Tool>
 
 <div class="album py-5 bg-light">
-    <div class="container">
+    <div class="container-fluid" style="max-width: 2000px">
 
         <div class="row">
 
@@ -14,8 +14,8 @@
                     <div class="panel mb-4 box-shadow">
                         <img class="panel-heading" src="@Url.Content(item.CoverImagePath)" style='height: 100%;width: 100%;object-fit: contain;max-height: 20em;min-height:20em;'>
                         <div class="panel-body" style="">
-                            <h3 class="Title">@item.Title</h3>
-                            <p class="panel-text">@item.Description</p>
+                            <h3 class="Title" style="text-align:center; margin-bottom: 20px; color: red">@item.Title</h3>
+                            <p class="panel-text" >@item.Description</p>
                             <div class="d-flex justify-content-between" style="text-align:right">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-outline-secondary">@Html.ActionLink("View", "Details", new { id = item.ToolID })</button>
@@ -57,7 +57,7 @@
                                 </div>
                                 <small class="text-muted">@item.ToolID</small>
                             </div>
-                            <span class="label label-primary">@item.team.ToString()</span>
+                            <span class="label label-primary Team">@item.team.ToString()</span>
                             <span class="label label-info">@item.Tag</span>
                         </div>
                     </div>
@@ -73,7 +73,6 @@
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 
 <script>
-
     $(document).ready(function () {
         function Contains(text_one, text_two) {
             if (text_one.indexOf(text_two) != -1) {

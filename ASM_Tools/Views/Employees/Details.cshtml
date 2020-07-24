@@ -4,108 +4,78 @@
     ViewBag.Title = "Details";
 }
 
-<div class="container" style="margin:50px">
+<div class="container-fluid" style="margin:50px">
     @*<h1 style="text-align:center">@Model.employee.LastName</h1>*@
     <div style=" text-align: center">
-        <img src="@Url.Content(Model.employee.DisplayPhotoPath)" style="max-width:40%;height:auto;border-radius:50%; margin:60px 0px" />
+        <img src="@Url.Content(Model.employee.DisplayPhotoPath)" style="max-width:30%; border-radius:50%; margin:60px 0px" />
     </div>
-    
+
     <div>
         <h1 style="text-align:center;">
             @Model.employee.FirstMidName @Model.employee.LastName
         </h1>
     </div>
 
-    <div style="text-align:center">
+    <div style="text-align:center; margin: 40px;">
+        <div class="label label-primary label" style="font-size:2em;">@Model.employee.JobTitle</div>
+    </div>
+
+    <div style="text-align:center; margin: 40px;">
         <div class="label label-info label" style="font-size:2em;">@Model.employee.Department</div>
     </div>
 
 
+
+    <div>
+        <h4>Employee</h4>
+        <hr />
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.employee.JoinedDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.employee.JoinedDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.employee.JobTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.employee.JobTitle)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.employee.CompanyEmail)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.employee.CompanyEmail)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.employee.ResumePath)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.employee.ResumePath)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.employee.team)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.employee.team)
+            </dd>
+
+
+        </dl>
+    </div>
+
 </div>
-
-
-<div>
-    <h4>Employee</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        
-        @*<dt>
-            @Html.DisplayNameFor(model => model.employee.salutation)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.salutation)
-        </dd>*@
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.JoinedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.JoinedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.JobTitle)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.JobTitle)
-        </dd>
-
-        @*<dt>
-            @Html.DisplayNameFor(model => model.employee.Department)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.Department)
-        </dd>*@
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.CompanyEmail)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.CompanyEmail)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.ResumePath)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.ResumePath)
-        </dd>
-
-        
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.team)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.team)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(nodel => Model.Tools)
-        </dt>
-
-        <dd>
-            @foreach (var item in Model.Tools)
-            {
-                if (item.Checked)
-                {
-                    <div>@Html.ActionLink(item.tool.Title, "Details", "Tools", new { id = item.tool.ToolID }, null)</div>
-                    <div>@item.Role</div>
-                }
-            }
-        </dd>
-
-
-    </dl>
-</div>
-
 <div class="container">
     
         <div class="row bootstrap snippets">

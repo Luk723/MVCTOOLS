@@ -123,8 +123,6 @@ namespace ASM_Tools.Controllers
             coverFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.ToolID + "/cover folder/" + coverFullName));
 
 
-            
-            
             tool.GalleryPath = "~/Assets/Tools/" + tool.ToolID + "/gallery/";  //  ~/Assets/products/software1/gallery/
             tool.DocumentationPath = "~/Assets/Tools/" + tool.ToolID + "/documentation/";
             tool.InstallationPath = "~/Assets/Tools/" + tool.ToolID + "/Installation/";
@@ -310,8 +308,8 @@ namespace ASM_Tools.Controllers
 
                     string oldCoverImage = Request.MapPath(TempData["CoverImagePath"].ToString());
 
-                    MyTool.CoverImagePath = "~/Assets/Tools/" + toolView.tool.ToolID + "/cover folder/" + coverFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-                    coverFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + toolView.tool.ToolID + "/cover folder/" + coverFullName));
+                    MyTool.CoverImagePath = "~/Assets/Tools" + toolView.tool.ToolID + "/cover folder/" + coverFullName;  //  ~/Assets/products/software1/cover image/image.jpg
+                    coverFullName = Path.Combine(Server.MapPath("C:/Users/Adoca/source/repos/ASM_Tools/Assets/Tools" + toolView.tool.ToolID + "/cover folder/" + coverFullName));
 
                     //Delete old cover image
                     if (System.IO.File.Exists(oldCoverImage))
@@ -347,7 +345,7 @@ namespace ASM_Tools.Controllers
                                   select te;
                         if (tee.Count() == 0)
                         {
-                            db.ToolToEmployees.Add(new ToolToEmployee() { ToolID = toolView.tool.ToolID, EmployeeID = item.Employee.ID , Role = item.Role});
+                            db.ToolToEmployees.Add(new ToolToEmployee() { ToolID = toolView.tool.ToolID, EmployeeID = item.Employee.ID, Role = item.Role });
                         }
                         else
                         {
@@ -380,47 +378,6 @@ namespace ASM_Tools.Controllers
                 return RedirectToAction("Index");
             }
             return View(toolView);
-
-
-            //var ID = tool.CoverImagePath;
-
-            //if (ModelState.IsValid)
-            //{
-
-
-            //    //Edit cover image
-            //    if (tool.CoverImageFile != null)
-            //    {
-            //        //cover photo
-            //        string imageName = Path.GetFileNameWithoutExtension(tool.CoverImageFile.FileName);  //image
-            //        string imageExtension = Path.GetExtension(tool.CoverImageFile.FileName);  //.jpg
-            //        string coverFullName = imageName + imageExtension;  //image.jpg
-
-            //        string oldCoverImage = Request.MapPath(TempData["CoverImagePath"].ToString());
-
-            //        tool.CoverImagePath = "~/Assets/Tools/" + tool.Title + "/cover folder/" + coverFullName;  //  ~/Assets/products/software1/cover image/image.jpg
-            //        coverFullName = Path.Combine(Server.MapPath("~/Assets/Tools/" + tool.Title + "/cover folder/" + coverFullName));
-
-            //        //Delete old cover image
-            //        if (System.IO.File.Exists(oldCoverImage))
-            //        {
-            //            System.IO.File.Delete(oldCoverImage);
-            //        }
-            //        tool.CoverImageFile.SaveAs(coverFullName);
-
-            //    }
-            //    //if no file chose keep the original
-            //    else
-            //    {
-            //        tool.CoverImagePath = TempData["CoverImagePath"].ToString();
-            //    }
-
-
-            //    db.Entry(tool).State = EntityState.Modified;
-            //    db.SaveChanges();
-            //    return RedirectToAction("Index");
-            //}
-            //return View(tool);
         }
 
         // GET: Editor/Delete/5
@@ -444,7 +401,7 @@ namespace ASM_Tools.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Tool tool = db.Tools.Find(id);
-            string fullPath = Server.MapPath("~/Assets/Tools/" + tool.Title);
+            string fullPath = Server.MapPath("~/Assets/Tools/" + tool.ToolID);
             if (Directory.Exists(fullPath))
             {
                 Directory.Delete(fullPath, true);
@@ -568,6 +525,18 @@ namespace ASM_Tools.Controllers
             //string ReportURL = filePath;
             byte[] FileBytes = System.IO.File.ReadAllBytes(Server.MapPath(FileName));
             return File(FileBytes, "application/pdf");
+        }
+
+        public string ConvertImgToURL(string sImgPath)
+        {
+            if (sImgPath == null || !System.IO.File.Exists(sImgPath))
+            {
+                return "";
+            }
+            byte[] imageByteData = System.IO.File.ReadAllBytes(sImgPath);
+            string imageBase64Data = Convert.ToBase64String(imageByteData);
+            string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+            return imageDataURL;
         }
     }
 }

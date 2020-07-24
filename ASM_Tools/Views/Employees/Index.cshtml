@@ -6,19 +6,14 @@
 
 <h2>Index</h2>
 
-
-
-
 <div class="input-group">
-
-  
-
     <span><input type="text" id="Search" placeholder="Search Name" class="form-control" /></span>
     <span>
         <select id="DropDownList1" Height="72px" Width="184px">
             <option Value="">All</option>
             <option Value="ATS">ATS</option>
             <option Value="ATW">ATW</option>
+            <option Value="ATC">ATC</option>
             <option Value="ATHK">ATHK</option>
             <option value="COC">COC</option>
         </select>
@@ -30,7 +25,7 @@
 
     <section class="jumbotron text-center">
         <div class="container">
-            <h1 class="jumbotron-heading">Employee Showcase</h1>
+            <h1 class="jumbotron-heading">Employees</h1>
             <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
             <p>
                 <a href="#" class="btn btn-primary my-2">Main call to action</a>
@@ -39,11 +34,14 @@
         </div>
     </section>
 
-    @Html.Partial("EmployeeList", Model)
     
 
 </main>
 
+<div class="container-fluid">
+    @Html.Partial("EmployeeList", Model)
+
+</div>
 <style>
     
 

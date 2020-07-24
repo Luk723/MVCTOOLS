@@ -1,105 +1,64 @@
 ﻿@model ASM_Tools.Models.ToolViewModel
 
-
-@*@Html.LabelFor(model => model, new { @class = "control-label col-md-2" })*@
-
-
 @Html.LabelFor(model => model.Employees, new { @class = "control-label col-md-2" })
 
-<div class="col-md-10">
-
-    
-    <table class="table">
-        <tr>
-            <th>
-                Employees
-            </th>
-            <th>
-                Employee ID
-            </th>
-            <th>
-                Name
-            </th>
-            <th>
-                Team
-            </th>
-            <th>
-                Role
-            </th>
-            <th>
-                Add/Remove
-            </th>
-        </tr>
-
-        @for (int i = 0; i < Model.Employees.Count(); i++)
-        {
-            var roleID = "role" + Model.Employees[i].Employee.ID;
-            var checkID = "check" + Model.Employees[i].Employee.ID;
-
-            <tr class="Search">
-                <td>
-                    <img src="@Url.Content(Model.Employees[i].Employee.DisplayPhotoPath)"/>
-                    
-                </td>
-                <td class="ID">
-                    @Model.Employees[i].Employee.ID
-                </td>
-                <td class="Name">
-                    @Model.Employees[i].Employee.LastName @Model.Employees[i].Employee.FirstMidName
-                </td>
-                <td class="Team">
-                    @Model.Employees[i].Employee.team
-                </td>
-                <td>
-                    @Html.TextBoxFor(m => Model.Employees[i].Role, new { id = @roleID })
-                </td>
-                <td>
-                    @Html.CheckBoxFor(m => Model.Employees[i].Checked, new { id = @checkID, @class = "checkbox", onchange = "change(id)" })
-                </td>
-
-                @Html.HiddenFor(m => Model.Employees[i].Employee.LastName)
-                @Html.HiddenFor(m => Model.Employees[i].Employee.ID)
+<div class="container-fluid">
+    <div class="col-md-10">
+        <table class="table">
+            <tr>
+                <th>
+                    Employees
+                </th>
+                <th>
+                    Employee ID
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Team
+                </th>
+                <th>
+                    Role
+                </th>
+                <th>
+                    Add/Remove
+                </th>
             </tr>
+            @for (int i = 0; i < Model.Employees.Count(); i++)
+            {
+                var roleID = "role" + Model.Employees[i].Employee.ID;
+                var checkID = "check" + Model.Employees[i].Employee.ID;
 
+                <tr class="Search">
+                    <td>
+                        <img src="@Url.Content(Model.Employees[i].Employee.DisplayPhotoPath)"/>
+                    
+                    </td>
+                    <td class="ID">
+                        @Model.Employees[i].Employee.ID
+                    </td>
+                    <td class="Name">
+                        @Model.Employees[i].Employee.LastName @Model.Employees[i].Employee.FirstMidName
+                    </td>
+                    <td class="Team">
+                        @Model.Employees[i].Employee.team
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => Model.Employees[i].Role, new { id = @roleID })
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(m => Model.Employees[i].Checked, new { id = @checkID, @class = "checkbox", onchange = "change(id)" })
+                    </td>
 
-        }
-    </table>
-
-    @*<div>
-        <ul class="list-group">
-            <li class="list-group-item clearfix">
-                <img class="img-responsive img-rounded" src="http://placehold.it/256/163a63" alt="" />
-                <h3 class="list-group-item-heading">
-                    Amazing Item
-                    <span class="label label-danger pull-right">NEW !</span>
-                </h3>
-                <p class="list-group-item-text lead">
-                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio.
-                    <br />
-                    <a href="#"><small>Details&#8230;</small></a>
-
-                </p>
-                <div class="btn-toolbar pull-right" role="toolbar" aria-label="">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-fw fa-list"></i> <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Add to new list</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">A list</a></li>
-                            <li><a href="#">Another list</a></li>
-                            <li><a href="#">Third list</a></li>
-                        </ul>
-                    </div>
-                    <a href="#" class="btn btn-default">Add to cart</a>
-                    <a href="#" class="btn btn-primary">$29.99</a>
-                </div>
-            </li>
-        </ul>
-
-    </div>*@
+                    @Html.HiddenFor(m => Model.Employees[i].Employee.LastName)
+                    @Html.HiddenFor(m => Model.Employees[i].Employee.ID)
+                </tr>
+            }
+        </table>
+    </div>
 
 </div>
-
 
 
 
@@ -185,6 +144,10 @@
         $("#Search").keyup(function () {
             var searchText = $("#Search").val().toLowerCase();
             var searchTeam = $("#DropDownList1").val();
+            if (!isNaN(searchText)) {
+                searchText.toString();
+            }
+  
             $(".Search").each(function () {
                 if (searchTeam != "All") {
                     if (!Contains($(this).find(".Name").text().toLowerCase(), searchText) || !Contains($(this).find(".Team").text(), searchTeam)) {
