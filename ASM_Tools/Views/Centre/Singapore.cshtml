@@ -3,8 +3,8 @@
     ViewBag.Title = "Singapore";
 }
 
-<h1 style="display:inline;">ATS</h1>
-<img src="~/Image/ATS.png" />
+<h1 class="title">ATS</h1>
+<img src="@Url.Content("~/Assets/Centers/ATS.png")" />
 
 <div class="container">
     <div class="focus-area">
@@ -196,6 +196,10 @@
 
 
 <style>
+    .title{
+        margin: 20px auto;
+    }
+
     .container-fluid {
         margin: 0 auto;
         text-align: center;

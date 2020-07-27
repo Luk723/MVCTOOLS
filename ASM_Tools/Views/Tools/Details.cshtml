@@ -164,6 +164,36 @@
 
             <div id="thirdTab" class="tab-pane fade in">
                 <h3>watch Video</h3>
+                <table>
+
+                @{
+                    var videolist = Directory.EnumerateFiles(Server.MapPath(@Model.tool.VideoPath))
+                                          .Select(fn => @Model.tool.VideoPath + Path.GetFileName(fn));
+                }
+
+                @foreach (var file in videolist)
+                {
+                    long fileSize = new System.IO.FileInfo(Server.MapPath(file)).Length;
+                    string ext = new System.IO.FileInfo(Server.MapPath(file)).Extension;
+                    <tr>
+                        <td>
+                            @*<iframe type="text/html" width="640" height="385" src="@file" frameborder="0"></iframe>*@
+                            <video style="width: 700px; height: auto;" controls>
+                                <source src="@Url.Content(file)" />
+                            </video>
+                        </td>
+                        <td>
+                            @ext
+                        </td>
+                        <td>
+                            @(fileSize / 1048576) Mb
+                        </td>
+                    </tr>
+                }
+
+                </table>
+                
+                
             </div>
 
         </div>

@@ -56,34 +56,100 @@
 </div>
 
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<div class="container">
+    <div class="centers">
+        <h1>ASM Centers</h1>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <div class="row">
+
+            <a href="@Url.Action("Singapore", "Centre")">
+                <div class="col-lg-4">
+                    <div class="center-item">
+                        <div class="glyphicon glyphicon-alert">
+
+                        </div>
+                        <h3>ATS</h3>
+                    </div>
+                </div>
+            </a>
+            <a href="@Url.Action("China", "Centre")">
+                <div class="col-lg-4">
+                    <div class="center-item">
+                        <h3>ATC</h3>
+                    </div>
+                </div>
+            </a>
+
+            <a href="@Url.Action("HongKong", "Centre")">
+                <div class="col-lg-4">
+                    <div class="center-item">
+                        <h3>ATHK</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="row">
+            <a href="@Url.Action("Netherland", "Centre")">
+                <div class="col-lg-4">
+                    <div class="center-item">
+                        <h3>CoC</h3>
+                    </div>
+                </div>
+            </a>
+            <a href="@Url.Action("Taiwan", "Centre")">
+                <div class="col-lg-4">
+                    <div class="center-item">
+                        <h3>ATW</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
 
 <style>
-    
+    .container{
+        margin-top: 20px;
+    }
+
+    .row{
+        margin: 20px auto;
+    }
+
+    .center-item {
+        height: 200px;
+        width: auto;
+        background: red;
+        border: 1px green solid;
+        position: relative;
+    }
+
+    .center-item h3{
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        margin: 0;
+        padding: 0;
+        transform: translateX(-50%) translateY(-50%);
+    }
+
+    .center-item .glyphicon-alert{
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        margin: 0;
+        padding: 0;
+        transform: translateX(-50%) translateY(-50%);
+        font-size: 200%;
+        color: white;
+        transition: 0.5s ease;
+
+    }
+
+    .center-item:hover > .glyphicon{
+        color:aqua;
+    }
+
+
 </style>
