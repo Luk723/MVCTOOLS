@@ -53,7 +53,24 @@
                 @(fileSize/1048576) Mb
             </td>
             <td>
-                <a href="@Url.Action("GetPreview", "EditorTool", new { FileName = file})" target="_blank">Preview</a>
+                @*<a href="@Url.Action("GetPreview", "EditorTool", new { FileName = file})" target="_blank">Preview</a>*@
+                <button class="btn btn-sm" data-target="#modalPopUp" data-toggle="modal">Preview</button>
+                <div class="modal" id="modalPopUp">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>*@
+                                <h4 class="modal-title">@file</h4>
+                            </div>
+                            <div class="modal-body">
+                                <video style="width: 500px; max-height: 500px;" controls>
+                                    <source src="@Url.Content(file)" />
+                                </video>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
             </td>
             <td>
                 <button class="btn-warning deleteVideo" id="deleteVideo" data-id="@file"> Remove </button>

@@ -158,39 +158,85 @@
                             File Size
                         </th>
                     </tr>
+                    @{
+                        var installationlist = Directory.EnumerateFiles(Server.MapPath(@Model.tool.InstallationPath))
+                                              .Select(fn => @Model.tool.InstallationPath + Path.GetFileName(fn));
+                    }
+
+                    @foreach (var file in installationlist)
+                    {
+                        long fileSize = new System.IO.FileInfo(Server.MapPath(file)).Length;
+                        string ext = new System.IO.FileInfo(Server.MapPath(file)).Extension;
+                        <tr>
+                            <td>
+                                @Html.ActionLink(@file, "DownloadFile", "Tools", new { FileName = file }, null)
+                            </td>
+                            <td>
+                                @ext
+                            </td>
+                            <td>
+                                @(fileSize / 1048576) Mb
+                            </td>
+                        </tr>
+                    }
 
                 </table>
             </div>
 
             <div id="thirdTab" class="tab-pane fade in">
                 <h3>watch Video</h3>
-                <table>
-
-                @{
-                    var videolist = Directory.EnumerateFiles(Server.MapPath(@Model.tool.VideoPath))
-                                          .Select(fn => @Model.tool.VideoPath + Path.GetFileName(fn));
-                }
-
-                @foreach (var file in videolist)
-                {
-                    long fileSize = new System.IO.FileInfo(Server.MapPath(file)).Length;
-                    string ext = new System.IO.FileInfo(Server.MapPath(file)).Extension;
+                <table class="table">
                     <tr>
-                        <td>
-                            @*<iframe type="text/html" width="640" height="385" src="@file" frameborder="0"></iframe>*@
-                            <video style="width: 700px; height: auto;" controls>
-                                <source src="@Url.Content(file)" />
-                            </video>
-                        </td>
-                        <td>
-                            @ext
-                        </td>
-                        <td>
-                            @(fileSize / 1048576) Mb
-                        </td>
+                        <th>
+                            File Name
+                        </th>
+                        <th>
+                            File Type
+                        </th>
+                        <th>
+                            File Size
+                        </th>
                     </tr>
-                }
 
+                    @{
+                        var videolist = Directory.EnumerateFiles(Server.MapPath(@Model.tool.VideoPath))
+                                              .Select(fn => @Model.tool.VideoPath + Path.GetFileName(fn));
+                    }
+
+                    @foreach (var file in videolist)
+                    {
+                        long fileSize = new System.IO.FileInfo(Server.MapPath(file)).Length;
+                        string ext = new System.IO.FileInfo(Server.MapPath(file)).Extension;
+
+                        <tr>
+                            <td>
+                                <button data-target="#modalPopUp" data-toggle="modal">@file</button>
+                                <div class="modal" id="modalPopUp">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>*@
+                                                <h4 class="modal-title">@file</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <video style="width: 500px; max-height: 500px;" controls>
+                                                    <source src="@Url.Content(file)" />
+                                                </video>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                @ext
+                            </td>
+                            <td>
+                                @(fileSize / 1048576) Mb
+                            </td>
+                        </tr>
+                    
+                    }
                 </table>
                 
                 
@@ -207,41 +253,41 @@
     {
         if (item.Checked)
         {
-                    <div class="col-md-4">
-                        <div class="panel">
+            <div class="col-md-4">
+                <div class="panel">
 
-                            <div class="card-container">
-                                <span class="pro">@item.Employee.team</span>
-                                <div class="panel-body">
-                                    <img class="round" src="@Url.Content(item.Employee.DisplayPhotoPath)" alt="user" />
-                                    <div style="margin: 20px 0px;">
-                                        <h3>@item.Employee.FirstMidName @item.Employee.LastName </h3>
-                                        <span class="label label-info" style="font-size: 1em;">@item.Employee.Department</span>
-                                    </div>
-                                    <h3>@item.Role</h3>
-                                    <div class="buttons">
-                                        @Html.ActionLink("View Profile", "Details", "Employees", new { id = item.Employee.ID }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
-                                      
-                                    </div>
-                                    
-                                </div>
-                                <div class="skills">
-                                    <h6>Skills</h6>
-                                    <ul>
-                                        <li>UI / UX</li>
-                                        <li>Front End Development</li>
-                                        <li>HTML</li>
-                                        <li>CSS</li>
-                                        <li>JavaScript</li>
-                                        <li>React</li>
-                                        <li>Node</li>
-                                    </ul>
-                                </div>
+                    <div class="card-container">
+                        <span class="pro">@item.Employee.team</span>
+                        <div class="panel-body">
+                            <img class="round" src="@Url.Content(item.Employee.DisplayPhotoPath)" alt="user" />
+                            <div style="margin: 20px 0px;">
+                                <h3>@item.Employee.FirstMidName @item.Employee.LastName </h3>
+                                <span class="label label-info" style="font-size: 1em;">@item.Employee.Department</span>
                             </div>
-
-
+                            <h3>@item.Role</h3>
+                            <div class="buttons">
+                                @Html.ActionLink("View Profile", "Details", "Employees", new { id = item.Employee.ID }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+                                      
+                            </div>
+                                    
+                        </div>
+                        <div class="skills">
+                            <h6>Skills</h6>
+                            <ul>
+                                <li>UI / UX</li>
+                                <li>Front End Development</li>
+                                <li>HTML</li>
+                                <li>CSS</li>
+                                <li>JavaScript</li>
+                                <li>React</li>
+                                <li>Node</li>
+                            </ul>
                         </div>
                     </div>
+
+
+                </div>
+            </div>
                 
 
         }
