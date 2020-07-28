@@ -15,11 +15,11 @@ namespace ASM_Tools.Controllers
     public class EditorToolController : Controller
     {
         private ToolContext db = new ToolContext();
-
         // GET: Editor
         public ActionResult Index(string searchString)
         {
 
+            ViewBag.LinkText = "Editor";
             var Tools = from t in db.Tools
                         select t;
             if (!String.IsNullOrEmpty(searchString))
@@ -33,6 +33,7 @@ namespace ASM_Tools.Controllers
         {
             
             Tool tool = db.Tools.Find(id);
+            ViewBag.LinkText = "Editor";
 
             var Results = from e in db.Employees
                           select new
@@ -68,6 +69,7 @@ namespace ASM_Tools.Controllers
         // GET: Editor/Details/5
         public ActionResult Details(int? id)
         {
+            ViewBag.LinkText = "Editor";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -95,6 +97,7 @@ namespace ASM_Tools.Controllers
         // GET: Editor/Create
         public ActionResult Create()
         {
+            ViewBag.LinkText = "Editor";
             return View();
         }
 
@@ -236,6 +239,7 @@ namespace ASM_Tools.Controllers
         // GET: Editor/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.LinkText = "Editor";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -383,6 +387,7 @@ namespace ASM_Tools.Controllers
         // GET: Editor/Delete/5
         public ActionResult Delete(int? id)
         {
+            ViewBag.LinkText = "Editor";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

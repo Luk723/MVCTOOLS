@@ -18,12 +18,14 @@ namespace ASM_Tools.Controllers
         // GET: Carousel
         public ActionResult Index()
         {
+            ViewBag.LinkText = "Editor";
             return View(db.CarouselImages.ToList());
         }
 
         // GET: Carousel/Details/5
         public ActionResult Details(int? id)
         {
+            ViewBag.LinkText = "Editor";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +41,7 @@ namespace ASM_Tools.Controllers
         // GET: Carousel/Create
         public ActionResult Create()
         {
+            ViewBag.LinkText = "Editor";
             return View();
         }
 
@@ -70,6 +73,7 @@ namespace ASM_Tools.Controllers
         // GET: Carousel/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.LinkText = "Editor";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -101,6 +105,7 @@ namespace ASM_Tools.Controllers
         // GET: Carousel/Delete/5
         public ActionResult Delete(int? id)
         {
+            ViewBag.LinkText = "Editor";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

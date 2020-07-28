@@ -18,12 +18,14 @@ namespace ASM_Tools.Controllers
         // GET: EditorEmployee
         public ActionResult Index()
         {
+            ViewBag.LinkText = "Editor";
             return View(db.Employees.ToList());
         }
 
         // GET: EditorEmployee/Details/5
         public ActionResult Details(int? id)
         {
+            ViewBag.LinkText = "Editor";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -81,6 +83,7 @@ namespace ASM_Tools.Controllers
         // GET: EditorEmployee/Create
         public ActionResult Create()
         {
+            ViewBag.LinkText = "Editor";
             return View();
         }
 
@@ -150,6 +153,7 @@ namespace ASM_Tools.Controllers
         // GET: EditorEmployee/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.LinkText = "Editor";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -325,6 +329,7 @@ namespace ASM_Tools.Controllers
         // GET: EditorEmployee/Delete/5
         public ActionResult Delete(int? id)
         {
+            ViewBag.LinkText = "Editor";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -363,43 +368,3 @@ namespace ASM_Tools.Controllers
         }
     }
 }
-
-
-//public ActionResult YapD(int? id)
-//{
-//    if (id == null)
-//    {
-//        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//    }
-//    Employee employee = db.Employees.Find(id);
-//    if (employee == null)
-//    {
-//        return HttpNotFound();
-//    }
-//    var Results = from t in db.Tools
-//                  select new
-//                  {
-//                      t.ToolID,
-//                      t.Title,
-//                      Checked = ((from te in db.ToolToEmployees
-//                                  where (te.EmployeeID == id) & (te.ToolID == t.ToolID)
-//                                  select te).Count() > 0)
-//                  };
-
-//    var MyViewmodel = new EmployeeViewModel();
-
-//    MyViewmodel.ID = id.Value;
-//    MyViewmodel.Name = employee.FirstMidName;
-//    MyViewmodel.LastName = employee.LastName;
-
-//    var MyCheckBoxList = new List<CheckBoxViewModel>();
-
-//    foreach (var item in Results)
-//    {
-//        MyCheckBoxList.Add(new CheckBoxViewModel { Id = item.ToolID, ToolName = item.Title, Checked = item.Checked });
-//    }
-
-//    MyViewmodel.Tools = MyCheckBoxList;
-
-//    return View(MyViewmodel);
-//}

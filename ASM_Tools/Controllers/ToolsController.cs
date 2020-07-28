@@ -19,6 +19,8 @@ namespace ASM_Tools.Controllers
         // GET: Tools
         public ActionResult Index(string searchString)
         {
+            ViewBag.LinkText = "Tools";
+
             var Tools = from t in db.Tools
                         select t;
             if (!String.IsNullOrEmpty(searchString))
@@ -32,6 +34,7 @@ namespace ASM_Tools.Controllers
         // GET: Tools/Details/5
         public ActionResult Details(int? id)
         {
+            ViewBag.LinkText = "Tools";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

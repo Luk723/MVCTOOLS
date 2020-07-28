@@ -11,27 +11,33 @@ namespace ASM_Tools.Controllers
         // GET: Centre
         public ActionResult Index()
         {
+            ViewBag.LinkText = "Centres";
             return View();
         }
 
         public ActionResult Singapore()
         {
+            ViewBag.LinkText = "Centres";
             return View();
         }
         public ActionResult China()
         {
+            ViewBag.LinkText = "Centres";
             return View();
         }
         public ActionResult Taiwan()
         {
+            ViewBag.LinkText = "Centres";
             return View();
         }
         public ActionResult HongKong()
         {
+            ViewBag.LinkText = "Centres";
             return View();
         }
         public ActionResult Netherland()
         {
+            ViewBag.LinkText = "Centres";
             return View();
         }
     }

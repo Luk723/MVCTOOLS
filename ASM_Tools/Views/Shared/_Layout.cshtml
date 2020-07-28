@@ -25,11 +25,11 @@
 
             <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-2" aria-expanded="false" style="height: 1px;">
                 <ul class="nav navbar-nav">
-                    <li class="active">@Html.ActionLink("Home", "Index", "Home") <span class="sr-only">(current)</span></li>
-                    <li>@Html.ActionLink("Tools", "Index", "Tools")</li>
-                    <li>@Html.ActionLink("Employees", "Index", "Employees")</li>
+                    <li class="@(ViewBag.Linktext == "Home" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home") <span class="sr-only">(current)</span></li>
+                    <li class="@(ViewBag.Linktext == "Tools" ? "active" : "")">@Html.ActionLink("Tools", "Index", "Tools")</li>
+                    <li class="@(ViewBag.Linktext == "Employees" ? "active" : "")">@Html.ActionLink("Employees", "Index", "Employees")</li>
 
-                    <li class="dropdown">
+                    <li class="dropdown @(ViewBag.Linktext == "Editor" ? "active" : "")">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Editors<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Edit Home", "Index", "Carousel")</li>
@@ -41,7 +41,7 @@
                             <li><a href="#">One more separated link</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown @(ViewBag.Linktext == "Centres" ? "active" : "")">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Centers<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("ATS", "Singapore", "Centre")</li>

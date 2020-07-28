@@ -19,6 +19,7 @@ namespace ASM_Tools.Controllers
         public ActionResult Index(string team, string searchString)
         {
 
+            ViewBag.LinkText = "Employees";
 
             var teamList = new List<string>();
 
@@ -51,6 +52,7 @@ namespace ASM_Tools.Controllers
         // GET: Employees/Details/5
         public ActionResult Details(int? id)
         {
+            ViewBag.LinkText = "Employees";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

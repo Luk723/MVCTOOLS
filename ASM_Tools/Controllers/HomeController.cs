@@ -12,6 +12,7 @@ namespace ASM_Tools.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.LinkText = "Home";
             CarouselDBContext db = new CarouselDBContext();
             var data = (from d in db.CarouselImages select d).ToList();
             return View(data);
